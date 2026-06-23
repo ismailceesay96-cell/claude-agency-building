@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Page — Erstgespräch Lernversion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:  #08152A;
+  --navy2: #0E1F3D;
+  --navy3: #142952;
+  --gold:  #C9A96E;
+  --gold2: #E8D5B0;
+  --white: #FFFFFF;
+  --grey:  #7A8FA8;
+  --off:   #F4F6FA;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--navy);
+  color: var(--white);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+}
+
+/* Gold grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg,   var(--gold) 0, var(--gold) 1px, transparent 1px, transparent 60px),
+    repeating-linear-gradient(90deg,  var(--gold) 0, var(--gold) 1px, transparent 1px, transparent 60px);
+  opacity: 0.03;
+  pointer-events: none;
+  animation: gridDrift 20s linear infinite;
+  z-index: 0;
+}
+
+@keyframes gridDrift {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(60px, 60px); }
+}
+
+/* Progress bar */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.4s ease;
+  z-index: 200;
+}
+
+/* Slides */
+#slides-container {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 80px 90px;
+  opacity: 0;
+}
+
+.slide.active {
+  display: flex;
+  animation: slideIn 0.5s ease forwards;
+}
+
+.slide.exit {
+  display: flex;
+  animation: slideOut 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Gold accent line */
+.slide::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 80px; right: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+/* Nav controls */
+#controls {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 56px;
+  background: rgba(8, 21, 42, 0.95);
+  border-top: 1px solid rgba(201, 169, 110, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 100;
+}
+
+.ctrl-btn {
+  background: transparent;
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  color: var(--gold);
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  padding: 8px 22px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ctrl-btn:hover {
+  background: rgba(201, 169, 110, 0.1);
+  border-color: var(--gold);
+}
+
+.ctrl-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+#slide-counter {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: .12em;
+  color: var(--grey);
+  min-width: 80px;
+  text-align: center;
+}
+
+/* Logo */
+.logo {
+  position: absolute;
+  top: 28px; left: 80px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: .25em;
+  color: var(--gold);
+}
+
+/* Typography helpers */
+.label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.slide-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(42px, 6vw, 80px);
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+.slide-sub {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--grey);
+  margin-bottom: 40px;
+}
+
+/* Stat cards */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.stat-card {
+  background: var(--navy2);
+  border-top: 3px solid var(--gold);
+  padding: 28px 24px;
+}
+
+.stat-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 6vw, 72px);
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--grey);
+}
+
+/* Card list */
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.card-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  background: var(--navy2);
+  padding: 20px 24px;
+  border-left: 3px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.card-item:hover { border-left-color: var(--gold); }
+
+.card-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--gold);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.card-text {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.5;
+  padding-top: 4px;
+}
+
+/* Split layout */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-top: 20px;
+}
+
+/* Calculator box */
+.calc-box {
+  background: var(--navy2);
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  padding: 32px;
+}
+
+.calc-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.calc-label {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--grey);
+  flex: 1;
+}
+
+.calc-input {
+  background: var(--navy3);
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  color: var(--gold);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: .05em;
+  width: 120px;
+  text-align: right;
+  padding: 8px 12px;
+  outline: none;
+}
+
+.calc-input:focus { border-color: var(--gold); }
+
+.calc-divider {
+  height: 1px;
+  background: rgba(201, 169, 110, 0.2);
+  margin: 8px 0 20px;
+}
+
+.calc-result {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px;
+  color: var(--gold);
+  text-align: right;
+}
+
+/* Trust rows */
+.trust-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.trust-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.08);
+}
+
+.trust-badge {
+  width: 36px;
+  height: 36px;
+  background: var(--navy2);
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.trust-text {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--white);
+}
+
+/* Big number karte */
+.big-num-card {
+  background: var(--navy2);
+  border: 1px solid rgba(201, 169, 110, 0.2);
+  padding: 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.big-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(60px, 8vw, 96px);
+  color: var(--gold);
+  line-height: 1;
+}
+
+.big-num-label {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--grey);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  margin-top: 8px;
+}
+
+/* Trenner slide */
+.trenner-bg-text {
+  position: absolute;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(180px, 25vw, 280px);
+  color: var(--gold);
+  opacity: 0.06;
+  line-height: 1;
+  right: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Ja-Leiter */
+.ja-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.ja-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--navy2);
+  padding: 22px 28px;
+  border-left: 3px solid rgba(201, 169, 110, 0.2);
+}
+
+.ja-question {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--white);
+  flex: 1;
+}
+
+.ja-word {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+/* Pakete */
+.paket-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.paket-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: var(--navy2);
+  border-left: 3px solid transparent;
+  position: relative;
+}
+
+.paket-row.featured {
+  border-left-color: var(--gold);
+  background: var(--navy3);
+}
+
+.paket-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.paket-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: var(--gold);
+}
+
+.paket-badge {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+}
+
+/* Nächste Schritte */
+.steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.step-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.08);
+}
+
+.step-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--gold);
+  opacity: 0.5;
+  flex-shrink: 0;
+  width: 36px;
+}
+
+.step-text {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--white);
+}
+
+/* Abschluss */
+.abschluss-box {
+  background: var(--navy2);
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  padding: 52px 60px;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.abschluss-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gold);
+}
+
+/* Staggered vision items */
+.vision-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.vision-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards;
+}
+
+.vision-item:nth-child(1) { animation-delay: 0.2s; }
+.vision-item:nth-child(2) { animation-delay: 0.5s; }
+.vision-item:nth-child(3) { animation-delay: 0.8s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.vision-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+.vision-text {
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.5;
+}
+
+/* Source label */
+.source {
+  font-size: 11px;
+  color: var(--grey);
+  opacity: 0.6;
+  margin-top: 20px;
+}
+
+/* Metric row */
+.metric-row {
+  display: flex;
+  gap: 48px;
+  margin-top: 30px;
+}
+
+.metric-item {
+  text-align: center;
+}
+
+.metric-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 38px;
+  color: var(--white);
+  line-height: 1;
+}
+
+.metric-label {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--grey);
+  margin-top: 4px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* Kontakt */
+.contact-line {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--grey);
+  letter-spacing: .08em;
+  margin-top: 24px;
+}
+
+/* ======================== */
+/* === LERNVERSION ONLY === */
+/* ======================== */
+
+/* DISC badges */
+.disc-badges {
+  position: absolute;
+  top: 20px;
+  right: 80px;
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+
+.disc {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  color: var(--white);
+}
+
+.disc--red    { background: #E74C3C; }
+.disc--blue   { background: #3498DB; }
+.disc--yellow { background: #F39C12; }
+.disc--green  { background: #27AE60; }
+
+/* Tip boxes */
+.tips {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  border-left: 3px solid transparent;
+}
+
+.tip .tip-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.tip--green  { background: rgba(39, 174, 96,  0.10); border-color: #27AE60; color: #a8e6c0; }
+.tip--green  .tip-label { color: #27AE60; }
+
+.tip--blue   { background: rgba(52, 152, 219, 0.10); border-color: #3498DB; color: #a8d4f0; }
+.tip--blue   .tip-label { color: #3498DB; }
+
+.tip--orange { background: rgba(230, 126, 34,  0.10); border-color: #E67E22; color: #f5c592; }
+.tip--orange .tip-label { color: #E67E22; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div id="slides-container">
+
+  <!-- ===================== FOLIE 1 — TITEL ===================== -->
+  <section class="slide" data-index="1">
+    <div class="disc-badges">
+      <span class="disc disc--green">GRÜN</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Erstgespräch</div>
+    <h1 class="slide-title">Schön dass Sie<br>sich Zeit nehmen.</h1>
+    <p class="slide-sub">Eine ehrliche Analyse — kein Verkaufsgespräch.</p>
+    <div class="metric-row">
+      <div class="metric-item">
+        <div class="metric-val">15</div>
+        <div class="metric-label">Minuten</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-val">3</div>
+        <div class="metric-label">Erkenntnisse</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-val">0 €</div>
+        <div class="metric-label">Kosten heute</div>
+      </div>
+    </div>
+    <div class="tips">
+      <div class="tip tip--green">
+        <span class="tip-label">Redetipp</span>
+        <span>Kurze Pause nach dem Einsetzen. Ruhig, langsam sprechen. Du bist der Experte — zeig das nonverbal.</span>
+      </div>
+      <div class="tip tip--blue">
+        <span class="tip-label">Interaktion</span>
+        <span>Kurzes Händeschütteln, Namen nennen, Laptop aufklappen. Noch nicht reden — Setup wirkt.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 2 — EINSTIEGSFRAGE ===================== -->
+  <section class="slide" data-index="2">
+    <div class="disc-badges">
+      <span class="disc disc--blue">BLAU</span>
+      <span class="disc disc--red">ROT</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Der Einstieg</div>
+    <h1 class="slide-title">Darf ich Sie kurz<br>etwas fragen?</h1>
+    <div class="card-list">
+      <div class="card-item">
+        <div class="card-num">01</div>
+        <div class="card-text">„Wenn Sie selbst einen Betrieb suchen — was machen Sie als allererstes?"</div>
+      </div>
+      <div class="card-item">
+        <div class="card-num">02</div>
+        <div class="card-text">PAUSE — Kunde antwortet: Google.</div>
+      </div>
+      <div class="card-item">
+        <div class="card-num">03</div>
+        <div class="card-text">„Genau das passiert täglich mit Ihren Kunden — ohne dass Sie es merken."</div>
+      </div>
+    </div>
+    <div class="tips">
+      <div class="tip tip--blue">
+        <span class="tip-label">Interaktion</span>
+        <span>Folie stehen lassen. Echte Antwort abwarten. Nicht unterbrechen. Dann erst weitersprechen.</span>
+      </div>
+      <div class="tip tip--orange">
+        <span class="tip-label">Wichtig</span>
+        <span>Nicht weitermachen bevor der Kunde geantwortet hat. Die Stille ist dein Werkzeug.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 3 — DIE ZAHLEN ===================== -->
+  <section class="slide" data-index="3">
+    <div class="disc-badges">
+      <span class="disc disc--red">ROT</span>
+      <span class="disc disc--blue">BLAU</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Die Realität</div>
+    <h1 class="slide-title">Was Ihre Kunden täglich<br>tun — ohne dass Sie es merken.</h1>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">97%</div>
+        <div class="stat-label">suchen Betriebe zuerst online</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">75%</div>
+        <div class="stat-label">verlassen Google nie über Seite 1</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">56%</div>
+        <div class="stat-label">vertrauen Betrieben ohne Website nicht</div>
+      </div>
+    </div>
+    <p class="source">Quelle: Google Consumer Insights 2023 · Statista 2023</p>
+    <div class="tips">
+      <div class="tip tip--green">
+        <span class="tip-label">Redetipp</span>
+        <span>Nach jeder Zahl kurz pausieren und fragen: „Wussten Sie das?" — wirkt stärker als alle drei auf einmal zu lesen.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 4 — VERLUSTRECHNER ===================== -->
+  <section class="slide" data-index="4">
+    <div class="disc-badges">
+      <span class="disc disc--red">ROT</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Der Verlust</div>
+    <h1 class="slide-title">Was das für Ihren<br>Betrieb bedeutet.</h1>
+    <div class="split">
+      <div>
+        <div class="card-list">
+          <div class="card-item">
+            <div class="card-num">01</div>
+            <div class="card-text">„Was ist Ihr durchschnittlicher Auftragswert?"</div>
+          </div>
+          <div class="card-item">
+            <div class="card-num">02</div>
+            <div class="card-text">Rechnen Sie gemeinsam — lassen Sie ihn tippen.</div>
+          </div>
+          <div class="card-item">
+            <div class="card-num">03</div>
+            <div class="card-text">„Das ist der Betrag der jeden Monat an Ihnen vorbeizieht."</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="calc-box">
+          <div class="label" style="margin-bottom:20px">Ihr Jahresverlust</div>
+          <div class="calc-row">
+            <span class="calc-label">Ø Auftragswert</span>
+            <input class="calc-input" id="auftr" type="number" placeholder="0" oninput="calcLoss()"> €
+          </div>
+          <div class="calc-row">
+            <span class="calc-label">× 3 Kunden / Monat</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label">× 12 Monate</span>
+          </div>
+          <div class="calc-divider"></div>
+          <div class="calc-result" id="result">= &nbsp;&nbsp;0 €</div>
+        </div>
+      </div>
+    </div>
+    <div class="tips">
+      <div class="tip tip--orange">
+        <span class="tip-label">Wichtig</span>
+        <span>Den Kunden selbst tippen lassen — er rechnet, er glaubt es. Du sagst nur „Genau das verlieren Sie gerade."</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 5 — VISION ===================== -->
+  <section class="slide" data-index="5">
+    <div class="disc-badges">
+      <span class="disc disc--yellow">GELB</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Die Möglichkeit</div>
+    <h1 class="slide-title">Stellen Sie sich<br>kurz vor …</h1>
+    <div class="vision-list">
+      <div class="vision-item">
+        <div class="vision-dot"></div>
+        <div class="vision-text">Jemand in Ihrer Stadt sucht genau das was Sie anbieten.</div>
+      </div>
+      <div class="vision-item">
+        <div class="vision-dot"></div>
+        <div class="vision-text">Er findet Sie — liest Ihre Seite — ruft an.</div>
+      </div>
+      <div class="vision-item">
+        <div class="vision-dot"></div>
+        <div class="vision-text">Ihre Website arbeitet 24 Stunden für Sie — auch wenn Sie schlafen.</div>
+      </div>
+    </div>
+    <div class="tips">
+      <div class="tip tip--green">
+        <span class="tip-label">Redetipp</span>
+        <span>Langsam und bildhaft sprechen. Pausen lassen. Der Kunde soll sich das vorstellen — nicht nur hören.</span>
+      </div>
+      <div class="tip tip--blue">
+        <span class="tip-label">Interaktion</span>
+        <span>„Können Sie sich das vorstellen?" — dann schweigen. Kopfnicken ist ein kleines Ja.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 6 — KONKURRENZ ===================== -->
+  <section class="slide" data-index="6">
+    <div class="disc-badges">
+      <span class="disc disc--red">ROT</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Der Markt</div>
+    <h1 class="slide-title">Warum andere Betriebe<br>das schon nutzen.</h1>
+    <div class="split">
+      <div>
+        <div class="card-list">
+          <div class="card-item">
+            <div class="card-num">01</div>
+            <div class="card-text">Ihr Konkurrent ist bereits online — und bekommt die Aufträge die Sie verlieren.</div>
+          </div>
+          <div class="card-item">
+            <div class="card-num">02</div>
+            <div class="card-text">Kunden vergleichen — wer keine Website hat verliert automatisch.</div>
+          </div>
+          <div class="card-item">
+            <div class="card-num">03</div>
+            <div class="card-text">Der beste Betrieb gewinnt nicht — der sichtbarste gewinnt.</div>
+          </div>
+        </div>
+        <p class="source" style="margin-top:16px">Quelle: Statista Digital Economy Compass 2023</p>
+      </div>
+      <div>
+        <div class="big-num-card" style="height:100%;min-height:200px">
+          <div class="big-num">1/3</div>
+          <div class="big-num-label">der Konkurrenz<br>ist bereits online</div>
+        </div>
+      </div>
+    </div>
+    <div class="tips">
+      <div class="tip tip--orange">
+        <span class="tip-label">Wichtig</span>
+        <span>Den Schmerz nicht wegdiskutieren — stehen lassen. Kurze Pause. „Wie sehen Sie das?"</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 7 — VERTRAUEN ===================== -->
+  <section class="slide" data-index="7">
+    <div class="disc-badges">
+      <span class="disc disc--green">GRÜN</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Die Sicherheit</div>
+    <h1 class="slide-title">Was Sie bei mir<br>nie riskieren.</h1>
+    <div class="split">
+      <div>
+        <div class="trust-rows">
+          <div class="trust-row">
+            <div class="trust-badge">1</div>
+            <div class="trust-text">Ein Ansprechpartner — von Anfang bis Ende</div>
+          </div>
+          <div class="trust-row">
+            <div class="trust-badge">2</div>
+            <div class="trust-text">50% Anzahlung — Rest erst nach Ihrer Freigabe</div>
+          </div>
+          <div class="trust-row">
+            <div class="trust-badge">3</div>
+            <div class="trust-text">Kein Abo, kein Vertrag der Sie bindet</div>
+          </div>
+          <div class="trust-row">
+            <div class="trust-badge">4</div>
+            <div class="trust-text">Fixpreis — was wir vereinbaren ist was Sie zahlen</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="big-num-card" style="height:100%;min-height:220px">
+          <div class="big-num">0 €</div>
+          <div class="big-num-label">Risiko für Sie</div>
+        </div>
+      </div>
+    </div>
+    <div class="tips">
+      <div class="tip tip--green">
+        <span class="tip-label">Redetipp</span>
+        <span>Jede Zeile einzeln vorlesen und kurz stehen lassen. GRÜN-Typen brauchen Sicherheit — hier holen sie sie.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 8 — TRENNER TEIL 2 ===================== -->
+  <section class="slide" data-index="8">
+    <div class="disc-badges">
+      <span class="disc disc--blue">BLAU</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="trenner-bg-text">02</div>
+    <div class="label">Teil 2</div>
+    <h1 class="slide-title">Jetzt möchte ich<br>Sie besser verstehen.</h1>
+    <p class="slide-sub">Ich notiere live mit — das ist bereits Ihr erstes Briefing.</p>
+    <div class="tips">
+      <div class="tip tip--orange">
+        <span class="tip-label">Wichtig</span>
+        <span>Stift und Block hinlegen. Laptop zur Seite drehen. Jetzt hörst du zu — der Kunde redet.</span>
+      </div>
+      <div class="tip tip--blue">
+        <span class="tip-label">Interaktion</span>
+        <span>Sichtbar mitschreiben. Das zeigt: seine Antworten sind bereits Briefing-Material.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 9 — FRAGEN BLOCK 1 ===================== -->
+  <section class="slide" data-index="9">
+    <div class="disc-badges">
+      <span class="disc disc--blue">BLAU</span>
+      <span class="disc disc--red">ROT</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Analyse — Block 1</div>
+    <h1 class="slide-title">Wie läuft Ihr<br>Geschäft aktuell?</h1>
+    <div class="card-list">
+      <div class="card-item">
+        <div class="card-num">01</div>
+        <div class="card-text">„Wie kommen Sie aktuell an neue Kunden?"</div>
+      </div>
+      <div class="card-item">
+        <div class="card-num">02</div>
+        <div class="card-text">„Was würde sich ändern wenn morgen 3 neue Kunden über eine Website anfragen?"</div>
+      </div>
+      <div class="card-item">
+        <div class="card-num">03</div>
+        <div class="card-text">„Was ist das Wichtigste was ein Besucher über Ihren Betrieb sofort verstehen soll?"</div>
+      </div>
+    </div>
+    <p class="slide-sub" style="margin-top:20px">Diese Antworten gehen direkt in Ihre Website ein.</p>
+    <div class="tips">
+      <div class="tip tip--green">
+        <span class="tip-label">Redetipp</span>
+        <span>Nur eine Frage auf einmal. Vollständig ausreden lassen. Zusammenfassen: „Also wenn ich Sie richtig verstehe…"</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 10 — FRAGEN BLOCK 2 ===================== -->
+  <section class="slide" data-index="10">
+    <div class="disc-badges">
+      <span class="disc disc--blue">BLAU</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Analyse — Block 2</div>
+    <h1 class="slide-title">Was soll Ihre Website<br>für Sie tun?</h1>
+    <div class="card-list">
+      <div class="card-item">
+        <div class="card-num">01</div>
+        <div class="card-text">„Welche Leistungen bringen Ihnen die besten Aufträge?"</div>
+      </div>
+      <div class="card-item">
+        <div class="card-num">02</div>
+        <div class="card-text">„Wie sollen Kunden Sie erreichen — Telefon, WhatsApp oder Formular?"</div>
+      </div>
+      <div class="card-item">
+        <div class="card-num">03</div>
+        <div class="card-text">„Haben Sie ein Logo oder Firmenfarben — oder bauen wir von Grund auf?"</div>
+      </div>
+    </div>
+    <div class="tips">
+      <div class="tip tip--blue">
+        <span class="tip-label">Interaktion</span>
+        <span>Nach Antwort zusammenfassen: „Also wenn ich Sie richtig verstehe, wollen Sie…" — Kopfnicken holen.</span>
+      </div>
+      <div class="tip tip--orange">
+        <span class="tip-label">Wichtig</span>
+        <span>Nicht eigene Meinung einwerfen. Nur zuhören, notieren, zusammenfassen.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 11 — FRAGEN BLOCK 3 ===================== -->
+  <section class="slide" data-index="11">
+    <div class="disc-badges">
+      <span class="disc disc--yellow">GELB</span>
+      <span class="disc disc--green">GRÜN</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Analyse — Block 3</div>
+    <h1 class="slide-title">Wie soll Ihre Website<br>aussehen?</h1>
+    <div class="card-list">
+      <div class="card-item">
+        <div class="card-num">01</div>
+        <div class="card-text">„Gibt es Websites die Ihnen optisch gefallen — egal welche Branche?"</div>
+      </div>
+      <div class="card-item">
+        <div class="card-num">02</div>
+        <div class="card-text">„Wen wollen Sie ansprechen — welche Art von Kunden?"</div>
+      </div>
+      <div class="card-item">
+        <div class="card-num">03</div>
+        <div class="card-text">„Wann wäre Ihnen die fertige Website am liebsten?"</div>
+      </div>
+    </div>
+    <p class="slide-sub" style="margin-top:20px">„Ich habe jetzt ein klares Bild — ich weiß genau was Sie brauchen."</p>
+    <div class="tips">
+      <div class="tip tip--orange">
+        <span class="tip-label">Wichtig</span>
+        <span>Diesen Satz wörtlich sagen. Er signalisiert: der Briefing-Teil ist abgeschlossen — du kannst liefern.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 12 — TRENNER TEIL 3 ===================== -->
+  <section class="slide" data-index="12">
+    <div class="logo">PRIME PAGE</div>
+    <div class="trenner-bg-text">03</div>
+    <div class="label">Teil 3</div>
+    <h1 class="slide-title">Drei kurze Fragen —<br>dann sind wir fertig.</h1>
+    <p class="slide-sub">Keine Produktpräsentation. Kein Druck. Nur drei ehrliche Fragen.</p>
+    <div class="tips">
+      <div class="tip tip--orange">
+        <span class="tip-label">Wichtig</span>
+        <span>Psychologie: Wer dreimal Ja sagt sagt beim vierten Mal nicht Nein. Ruhig und langsam vorgehen.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 13 — JA-LEITER ===================== -->
+  <section class="slide" data-index="13">
+    <div class="disc-badges">
+      <span class="disc disc--red">ROT</span>
+      <span class="disc disc--green">GRÜN</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Die Ja-Leiter</div>
+    <h1 class="slide-title">Wären Sie einverstanden …</h1>
+    <div class="ja-rows">
+      <div class="ja-row">
+        <div class="ja-question">„Mehr Online-Sichtbarkeit würde Ihrem Betrieb helfen?"</div>
+        <div class="ja-word">JA</div>
+      </div>
+      <div class="ja-row">
+        <div class="ja-question">„Eine professionelle Website schafft mehr Vertrauen als kein Auftritt?"</div>
+        <div class="ja-word">JA</div>
+      </div>
+      <div class="ja-row">
+        <div class="ja-question">„In 14 Tagen, Fixpreis, alles gehört Ihnen — das wäre interessant?"</div>
+        <div class="ja-word">JA</div>
+      </div>
+    </div>
+    <div class="tips">
+      <div class="tip tip--green">
+        <span class="tip-label">Redetipp</span>
+        <span>Jede Frage stellen und echte Antwort holen bevor die nächste kommt. Nicht drei auf einmal vorlesen.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 14 — PAKETE ===================== -->
+  <section class="slide" data-index="14">
+    <div class="disc-badges">
+      <span class="disc disc--red">ROT</span>
+      <span class="disc disc--blue">BLAU</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Die Investition</div>
+    <h1 class="slide-title">Was Sie bekommen —<br>und was es kostet.</h1>
+    <div class="split">
+      <div>
+        <div class="paket-rows">
+          <div class="paket-row">
+            <div class="paket-name">Starter</div>
+            <div class="paket-price">500 €</div>
+          </div>
+          <div class="paket-row featured">
+            <div class="paket-badge">Beliebt</div>
+            <div class="paket-name">Business</div>
+            <div class="paket-price">800 €</div>
+          </div>
+          <div class="paket-row">
+            <div class="paket-name">Pro</div>
+            <div class="paket-price">1.300 €</div>
+          </div>
+        </div>
+        <p class="source" style="margin-top:16px">Fixpreis · Kein Abo · 100% Ihr Eigentum</p>
+      </div>
+      <div>
+        <div class="big-num-card" style="height:100%;min-height:200px">
+          <div class="big-num">14</div>
+          <div class="big-num-label">Tage bis Ihre<br>Website live ist</div>
+        </div>
+      </div>
+    </div>
+    <div class="tips">
+      <div class="tip tip--orange">
+        <span class="tip-label">Wichtig</span>
+        <span>Business als Default zeigen. Nicht erklären was enthalten ist bevor er fragt — erst fragen lassen.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 15 — NÄCHSTE SCHRITTE ===================== -->
+  <section class="slide" data-index="15">
+    <div class="disc-badges">
+      <span class="disc disc--green">GRÜN</span>
+      <span class="disc disc--blue">BLAU</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div class="label">Der Prozess</div>
+    <h1 class="slide-title">So starten wir —<br>noch heute.</h1>
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-text">Paket festlegen — jetzt in diesem Gespräch</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-text">Projektvereinbarung unterschreiben</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-text">50% Anzahlung — Projekt startet sofort</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-text">Fertige Website in 14 Tagen</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div class="step-text">Vollständige Übergabe — Domain, Hosting, Code gehören Ihnen</div>
+      </div>
+    </div>
+    <div class="tips">
+      <div class="tip tip--green">
+        <span class="tip-label">Redetipp</span>
+        <span>Jeden Schritt kurz vorlesen. Bei Schritt 3: „Sobald Sie das machen, fange ich morgen an." — nicht früher.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOLIE 16 — ABSCHLUSS ===================== -->
+  <section class="slide" data-index="16">
+    <div class="disc-badges">
+      <span class="disc disc--red">ROT</span>
+      <span class="disc disc--green">GRÜN</span>
+    </div>
+    <div class="logo">PRIME PAGE</div>
+    <div style="display:flex;align-items:center;justify-content:center;height:100%">
+      <div class="abschluss-box">
+        <div class="label">Die Abschlussfrage</div>
+        <h1 class="slide-title" style="font-size:clamp(36px,5vw,64px);margin-top:12px">Wann passt es Ihnen besser —<br>Dienstag oder Donnerstag?</h1>
+        <p class="slide-sub" style="margin-top:20px">Jeder Tag ohne Website ist ein Tag für Ihren Konkurrenten.</p>
+        <div class="contact-line">prime1page@gmail.com &nbsp;·&nbsp; +49 1575 4152030 &nbsp;·&nbsp; prime1page.de</div>
+      </div>
+    </div>
+    <div class="tips" style="position:absolute;bottom:70px;left:80px;right:80px">
+      <div class="tip tip--orange">
+        <span class="tip-label">Wichtig</span>
+        <span>NIE fragen OB — IMMER fragen WANN. Zwei Optionen anbieten, keine offene Frage. Schweigen nach der Frage.</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Controls -->
+<nav id="controls">
+  <button class="ctrl-btn" id="btn-prev" onclick="navigate(-1)">&#8592; ZURÜCK</button>
+  <div id="slide-counter">01 / 16</div>
+  <button class="ctrl-btn" id="btn-next" onclick="navigate(1)">WEITER &#8594;</button>
+  <button class="ctrl-btn" id="btn-full" onclick="toggleFullscreen()">&#11036;</button>
+</nav>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+let animating = false;
+
+function showSlide(n) {
+  if (animating) return;
+  if (n < 0 || n >= total) return;
+  animating = true;
+
+  const oldSlide = slides[current];
+  const newSlide = slides[n];
+
+  oldSlide.classList.add('exit');
+  oldSlide.classList.remove('active');
+
+  setTimeout(() => {
+    oldSlide.classList.remove('exit');
+    current = n;
+    newSlide.classList.add('active');
+    updateUI();
+    setTimeout(() => { animating = false; }, 520);
+  }, 300);
+}
+
+function updateUI() {
+  const num = String(current + 1).padStart(2, '0');
+  document.getElementById('slide-counter').textContent = num + ' / ' + String(total).padStart(2, '0');
+  document.getElementById('progress-bar').style.width = ((current + 1) / total * 100) + '%';
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === total - 1;
+}
+
+function navigate(dir) {
+  showSlide(current + dir);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); navigate(1); }
+  if (e.key === 'ArrowLeft')  { e.preventDefault(); navigate(-1); }
+  if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+  if (e.key === 'Escape') document.exitFullscreen && document.exitFullscreen();
+});
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen || document.documentElement.mozRequestFullScreen).call(document.documentElement);
+  } else {
+    (document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen).call(document);
+  }
+}
+
+function calcLoss() {
+  const auftr = parseFloat(document.getElementById('auftr').value) || 0;
+  const jahresverlust = auftr * 3 * 12;
+  document.getElementById('result').textContent = '= ' + jahresverlust.toLocaleString('de-DE') + ' €';
+}
+
+// Init
+slides[0].classList.add('active');
+updateUI();
+</script>
+</body>
+</html>
