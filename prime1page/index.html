@@ -377,8 +377,9 @@ nav.scrolled{
   transition:all .4s cubic-bezier(0.16,1,0.3,1);
 }
 .uval:hover{background:var(--navy3);border-left-color:var(--gold);transform:translateX(6px)}
-.uval-icon{font-size:20px;flex-shrink:0;transition:transform .4s cubic-bezier(0.16,1,0.3,1)}
-.uval:hover .uval-icon{transform:scale(1.2)}
+.uval-icon{width:20px;height:20px;flex-shrink:0;transition:transform .4s cubic-bezier(0.16,1,0.3,1);color:var(--gold)}
+.uval-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;display:block}
+.uval:hover .uval-icon{transform:scale(1.15)}
 .uval-t{font-size:13px;font-weight:600;color:var(--white);margin-bottom:2px}
 .uval-d{font-size:12px;color:var(--grey);font-weight:300}
 
@@ -452,10 +453,14 @@ nav.scrolled{
 }
 .pkg-note{font-size:11px;color:var(--grey);margin-top:5px;position:relative;z-index:1;font-weight:300}
 .pkg-time{
-  display:inline-block;margin-top:18px;font-size:11px;font-weight:600;
+  display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:11px;font-weight:600;
   letter-spacing:.12em;color:var(--gold);border:1px solid rgba(201,169,110,.25);
-  padding:6px 18px;position:relative;z-index:1;
+  padding:7px 18px;position:relative;z-index:1;
   transition:all .3s ease;
+}
+.pkg-time::before{
+  content:'';display:block;width:12px;height:12px;flex-shrink:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='none' stroke='%23C9A96E' stroke-width='1.5' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='7'/%3E%3Cpolyline points='10 6 10 10 13 12'/%3E%3C/svg%3E") no-repeat center/contain;
 }
 .pkg:hover .pkg-time{border-color:rgba(201,169,110,.5);background:rgba(201,169,110,.05)}
 .pkg-addon{
@@ -465,7 +470,8 @@ nav.scrolled{
   transition:all .3s ease;
 }
 .pkg:hover .pkg-addon{background:rgba(201,169,110,.09);border-color:rgba(201,169,110,.45)}
-.addon-icon{font-size:16px;flex-shrink:0}
+.addon-icon{width:16px;height:16px;flex-shrink:0;color:var(--gold)}
+.addon-icon svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;display:block}
 .addon-text{font-size:12px;color:var(--grey);line-height:1.4;font-weight:300}
 .addon-text strong{color:var(--gold)}
 
@@ -575,8 +581,9 @@ nav.scrolled{
 .feature-card:hover::before{opacity:1}
 .feature-card:nth-child(2){margin-top:40px}
 .feature-card:nth-child(4){margin-top:-40px}
-.feature-card-icon{font-size:1.8rem;margin-bottom:20px;display:block;transition:transform .4s cubic-bezier(0.16,1,0.3,1)}
-.feature-card:hover .feature-card-icon{transform:scale(1.15) rotate(-5deg)}
+.feature-card-icon{width:28px;height:28px;margin-bottom:24px;display:block;color:var(--gold);transition:transform .4s cubic-bezier(0.16,1,0.3,1)}
+.feature-card-icon svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:1.5;display:block}
+.feature-card:hover .feature-card-icon{transform:scale(1.12) rotate(-4deg)}
 .feature-card h3{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.05em;color:var(--white);margin-bottom:10px;transition:color .3s}
 .feature-card:hover h3{color:var(--gold2)}
 .feature-card p{font-size:13px;color:var(--grey);line-height:1.7;font-weight:300}
@@ -605,8 +612,9 @@ nav.scrolled{
   box-shadow:0 20px 60px rgba(3,10,21,0.4);
 }
 .ref-card:hover::before{transform:scaleX(1)}
-.ref-card-icon{font-size:2.2rem;margin-bottom:20px;opacity:.8;transition:transform .4s cubic-bezier(0.16,1,0.3,1),opacity .3s}
-.ref-card:hover .ref-card-icon{transform:scale(1.15);opacity:1}
+.ref-card-icon{width:32px;height:32px;margin:0 auto 22px;opacity:.75;transition:transform .4s cubic-bezier(0.16,1,0.3,1),opacity .3s;color:var(--gold)}
+.ref-card-icon svg{width:32px;height:32px;stroke:currentColor;fill:none;stroke-width:1.4;display:block}
+.ref-card:hover .ref-card-icon{transform:scale(1.12);opacity:1}
 .ref-card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.05em;color:var(--white);margin-bottom:12px;transition:color .3s}
 .ref-card:hover .ref-card-title{color:var(--gold2)}
 .ref-card-text{font-size:12.5px;color:var(--grey);line-height:1.8;font-weight:300}
@@ -636,7 +644,8 @@ nav.scrolled{
   transform:translateX(6px);
   box-shadow:inset 0 0 30px rgba(201,169,110,.04);
 }
-.k-contact-ico{font-size:22px;flex-shrink:0;transition:transform .35s cubic-bezier(0.16,1,0.3,1)}
+.k-contact-ico{width:22px;height:22px;flex-shrink:0;color:var(--gold);transition:transform .35s cubic-bezier(0.16,1,0.3,1)}
+.k-contact-ico svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5;display:block}
 .k-contact:hover .k-contact-ico{transform:scale(1.2)}
 .k-contact-label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--grey)}
 .k-contact-val{font-size:15px;color:var(--white);font-weight:500;margin-top:3px;transition:color .3s}
@@ -649,8 +658,9 @@ nav.scrolled{
   transition:all .4s cubic-bezier(0.16,1,0.3,1);
 }
 .k-prom:hover{background:var(--navy2);transform:translateX(4px)}
-.k-prom-ico{font-size:20px;flex-shrink:0;margin-top:2px;transition:transform .4s cubic-bezier(0.16,1,0.3,1)}
-.k-prom:hover .k-prom-ico{transform:scale(1.2) rotate(-5deg)}
+.k-prom-ico{width:20px;height:20px;flex-shrink:0;margin-top:2px;color:var(--gold);transition:transform .4s cubic-bezier(0.16,1,0.3,1)}
+.k-prom-ico svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;display:block}
+.k-prom:hover .k-prom-ico{transform:scale(1.15) rotate(-4deg)}
 .k-prom-t{font-size:13px;font-weight:600;color:var(--white);margin-bottom:4px}
 .k-prom-d{font-size:12px;color:var(--grey);line-height:1.6;font-weight:300}
 
@@ -816,7 +826,7 @@ footer::before{
   <div class="hero-card">
     <div class="card-tag">Investition — Übersicht</div>
     <div class="card-row"><span class="card-pkg">Starter</span><span class="card-p">500 €</span></div>
-    <div class="card-row"><span class="card-pkg">Business ✦</span><span class="card-p">800 €</span></div>
+    <div class="card-row"><span class="card-pkg">Business</span><span class="card-p">800 €</span></div>
     <div class="card-row"><span class="card-pkg">Pro</span><span class="card-p">1.300 €</span></div>
     <div class="card-bottom"> 5 – 14 Werktage Lieferung</div>
   </div>
@@ -875,19 +885,19 @@ footer::before{
       <p class="reveal reveal-delay-2">Sie liefern mir Ihre Idee und Ihre Inhalte. Ich liefere eine fertige Website, die Besucher zu Anfragen macht — ohne Umwege, ohne Zwischenhändler, mit einem festen Ansprechpartner von Anfang bis Ende.</p>
       <div class="ueber-vals reveal reveal-delay-3">
         <div class="uval">
-          <div class="uval-icon">⚡</div>
+          <div class="uval-icon"><svg viewBox="0 0 20 20"><polyline points="13 2 7 11 10 11 7 18 13 9 10 9 13 2"/></svg></div>
           <div><div class="uval-t">Schnelle Delivery</div><div class="uval-d">5 bis 14 Werktage — nicht 4 Monate</div></div>
         </div>
         <div class="uval">
-          <div class="uval-icon">🎯</div>
+          <div class="uval-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/><circle cx="10" cy="10" r="4"/><circle cx="10" cy="10" r="1.5" fill="currentColor" stroke="none"/></svg></div>
           <div><div class="uval-t">Conversion-First Denken</div><div class="uval-d">Jede Sektion hat einen strategischen Zweck</div></div>
         </div>
         <div class="uval">
-          <div class="uval-icon">🔑</div>
+          <div class="uval-icon"><svg viewBox="0 0 20 20"><circle cx="7" cy="10" r="4"/><line x1="11" y1="10" x2="18" y2="10"/><line x1="15" y1="10" x2="15" y2="13"/><line x1="18" y1="10" x2="18" y2="13"/></svg></div>
           <div><div class="uval-t">Vollständige Übergabe</div><div class="uval-d">Domain, Hosting — alles geht an Sie</div></div>
         </div>
         <div class="uval">
-          <div class="uval-icon">📋</div>
+          <div class="uval-icon"><svg viewBox="0 0 20 20"><rect x="5" y="3" width="10" height="14" rx="1"/><path d="M8 3V2h4v1"/><line x1="8" y1="9" x2="12" y2="9"/><line x1="8" y1="12" x2="12" y2="12"/></svg></div>
           <div><div class="uval-t">Transparenter Prozess</div><div class="uval-d">Sie sehen jeden Schritt — keine Blackbox</div></div>
         </div>
       </div>
@@ -922,9 +932,9 @@ footer::before{
       </ul>
       <div class="pkg-price">500 €</div>
       <div class="pkg-note">Einmalig, inkl. MwSt.</div>
-      <div class="pkg-time">⏱ 5 – 7 Werktage</div>
+      <div class="pkg-time">5 – 7 Werktage</div>
       <div class="pkg-addon">
-        <span class="addon-icon">📸</span>
+        <span class="addon-icon"><svg viewBox="0 0 20 20"><path d="M2 7h2l2-3h8l2 3h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="10" cy="11" r="3"/></svg></span>
         <span class="addon-text"><strong>+ 79 € </strong>Professionelle Fotos zubuchbar</span>
       </div>
     </div>
@@ -944,9 +954,9 @@ footer::before{
       </ul>
       <div class="pkg-price">800 €</div>
       <div class="pkg-note">Einmalig, inkl. MwSt.</div>
-      <div class="pkg-time">⏱ 7 – 10 Werktage</div>
+      <div class="pkg-time">7 – 10 Werktage</div>
       <div class="pkg-addon">
-        <span class="addon-icon">📸</span>
+        <span class="addon-icon"><svg viewBox="0 0 20 20"><path d="M2 7h2l2-3h8l2 3h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="10" cy="11" r="3"/></svg></span>
         <span class="addon-text"><strong>+ 79 € </strong>Professionelle Fotos zubuchbar</span>
       </div>
     </div>
@@ -965,9 +975,9 @@ footer::before{
       </ul>
       <div class="pkg-price">1.300 €</div>
       <div class="pkg-note">Einmalig, inkl. MwSt.</div>
-      <div class="pkg-time">⏱ 10 – 14 Werktage</div>
+      <div class="pkg-time">10 – 14 Werktage</div>
       <div class="pkg-addon">
-        <span class="addon-icon">📸</span>
+        <span class="addon-icon"><svg viewBox="0 0 20 20"><path d="M2 7h2l2-3h8l2 3h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="10" cy="11" r="3"/></svg></span>
         <span class="addon-text"><strong>+ 79 € </strong>Professionelle Fotos zubuchbar</span>
       </div>
     </div>
@@ -1043,22 +1053,22 @@ footer::before{
 
   <div class="feature-cards-grid reveal right">
     <div class="feature-card">
-      <span class="feature-card-icon">⚡</span>
+      <span class="feature-card-icon"><svg viewBox="0 0 20 20"><polyline points="13 2 7 11 10 11 7 18 13 9 10 9 13 2"/></svg></span>
       <h3>Performance</h3>
       <p>Schnelle Ladezeit für ein professionellen ersten Eindruck.</p>
     </div>
     <div class="feature-card">
-      <span class="feature-card-icon">🎯</span>
+      <span class="feature-card-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/><circle cx="10" cy="10" r="4"/><circle cx="10" cy="10" r="1.5" fill="currentColor" stroke="none"/></svg></span>
       <h3>Strategie</h3>
       <p>Keine Entscheidung ohne Grund. Jedes Element hat seinen Platz und Zweck.</p>
     </div>
     <div class="feature-card">
-      <span class="feature-card-icon">✦</span>
+      <span class="feature-card-icon"><svg viewBox="0 0 20 20"><polygon points="10 2 18 10 10 18 2 10"/></svg></span>
       <h3>Premium Design</h3>
       <p>Websites, bei denen Ihre Kunden sofort Vertrauen spüren.</p>
     </div>
     <div class="feature-card">
-      <span class="feature-card-icon">📈</span>
+      <span class="feature-card-icon"><svg viewBox="0 0 20 20"><polyline points="2 14 7 9 11 12 18 4"/><polyline points="14 4 18 4 18 8"/></svg></span>
       <h3>Wachstum</h3>
       <p>Systematisch mit starker Online-Präsenz neue Kunden gewinnen.</p>
     </div>
@@ -1079,17 +1089,17 @@ footer::before{
 
   <div class="ref-grid reveal reveal-delay-3">
     <div class="ref-card ref-card--placeholder">
-      <div class="ref-card-icon">🌐</div>
+      <div class="ref-card-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/><path d="M10 2c-2.5 3.5-2.5 12.5 0 16M10 2c2.5 3.5 2.5 12.5 0 16"/><line x1="2" y1="10" x2="18" y2="10"/></svg></div>
       <div class="ref-card-title">Ihr Projekt könnte hier stehen</div>
       <div class="ref-card-text">Jedes Projekt wird nach Fertigstellung mit Link und kurzer Beschreibung hier aufgenommen.</div>
     </div>
     <div class="ref-card ref-card--placeholder">
-      <div class="ref-card-icon">🍽️</div>
+      <div class="ref-card-icon"><svg viewBox="0 0 20 20"><line x1="7" y1="3" x2="7" y2="17"/><path d="M5 3v5a2 2 0 0 0 4 0V3"/><line x1="14" y1="3" x2="14" y2="17"/></svg></div>
       <div class="ref-card-title">Gastronomie & Handwerk</div>
       <div class="ref-card-text">Erste Projekte aus der Zielbranche werden in Kürze ergänzt.</div>
     </div>
     <div class="ref-card ref-card--placeholder">
-      <div class="ref-card-icon">✦</div>
+      <div class="ref-card-icon"><svg viewBox="0 0 20 20"><polygon points="10 2 18 10 10 18 2 10"/></svg></div>
       <div class="ref-card-title">Direkter Eindruck</div>
       <div class="ref-card-text">Jede Live-Website ist über einen Klick direkt einsehbar — Qualität statt Versprechen.</div>
     </div>
@@ -1104,21 +1114,21 @@ footer::before{
       <p class="reveal reveal-delay-1">Das Erstgespräch ist kostenlos. Kein Pitch, kein Verkaufsdruck. Wir schauen gemeinsam, ob wir zusammenpassen — und was für Ihr Business möglich ist.</p>
       <div class="k-contacts reveal reveal-delay-2">
         <a href="mailto:prime1page@gmail.com" class="k-contact">
-          <div class="k-contact-ico">✉️</div>
+          <div class="k-contact-ico"><svg viewBox="0 0 20 20"><rect x="2" y="5" width="16" height="12" rx="1"/><polyline points="2 5 10 12 18 5"/></svg></div>
           <div>
             <div class="k-contact-label">E-Mail</div>
             <div class="k-contact-val">prime1page@gmail.com</div>
           </div>
         </a>
         <a href="https://wa.me/4915754152030" class="k-contact">
-          <div class="k-contact-ico">💬</div>
+          <div class="k-contact-ico"><svg viewBox="0 0 20 20"><path d="M3 4h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6l-4 3V5a1 1 0 0 1 1-1z"/></svg></div>
           <div>
             <div class="k-contact-label">WhatsApp</div>
             <div class="k-contact-val">+49 1575 4152030</div>
           </div>
         </a>
         <a href="https://calendly.com/prime1page/20min" class="k-contact">
-          <div class="k-contact-ico">📅</div>
+          <div class="k-contact-ico"><svg viewBox="0 0 20 20"><rect x="2" y="4" width="16" height="14" rx="1"/><line x1="2" y1="9" x2="18" y2="9"/><line x1="6" y1="2" x2="6" y2="6"/><line x1="14" y1="2" x2="14" y2="6"/></svg></div>
           <div>
             <div class="k-contact-label">Erstgespräch</div>
             <div class="k-contact-val">Termin buchen</div>
@@ -1130,15 +1140,15 @@ footer::before{
     <div class="k-right">
       <div class="k-promises reveal">
         <div class="k-prom">
-          <div class="k-prom-ico">⚡</div>
+          <div class="k-prom-ico"><svg viewBox="0 0 20 20"><polyline points="13 2 7 11 10 11 7 18 13 9 10 9 13 2"/></svg></div>
           <div><div class="k-prom-t">Schnelle Antwort</div><div class="k-prom-d">Ich melde mich innerhalb von 24 Stunden</div></div>
         </div>
         <div class="k-prom">
-          <div class="k-prom-ico">✦</div>
+          <div class="k-prom-ico"><svg viewBox="0 0 20 20"><polygon points="10 2 18 10 10 18 2 10"/></svg></div>
           <div><div class="k-prom-t">Kostenlose Beratung</div><div class="k-prom-d">Erstgespräch unverbindlich — lernen Sie mich kennen</div></div>
         </div>
         <div class="k-prom">
-          <div class="k-prom-ico">📋</div>
+          <div class="k-prom-ico"><svg viewBox="0 0 20 20"><rect x="5" y="3" width="10" height="14" rx="1"/><path d="M8 3V2h4v1"/><line x1="8" y1="9" x2="12" y2="9"/><line x1="8" y1="12" x2="12" y2="12"/></svg></div>
           <div><div class="k-prom-t">Klarer Vertrag</div><div class="k-prom-d">Fixpreis, Lieferzeit und Leistungen schriftlich festgehalten</div></div>
         </div>
       </div>
