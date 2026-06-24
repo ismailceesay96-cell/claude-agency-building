@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Page – Professionelle Websites | Ismail</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#08152A;
+  --navy2:#0E1F3D;
+  --navy3:#142952;
+  --gold:#C9A96E;
+  --gold2:#E8D5B0;
+  --white:#FFFFFF;
+  --grey:#7A8FA8;
+  --off:#F4F6FA;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+#cur{width:10px;height:10px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s}
+#cur2{width:40px;height:40px;border:1.5px solid rgba(201,169,110,.5);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .12s ease}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 6vw;background:rgba(8,21,42,.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.06)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.1em;color:var(--white)}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:32px}
+.nav-links a{font-size:13px;font-weight:500;color:var(--grey);text-decoration:none;letter-spacing:.04em;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--navy);background:var(--gold);padding:11px 26px;text-decoration:none;transition:all .2s;cursor:none}
+.nav-cta:hover{background:var(--gold2);transform:translateY(-1px)}
+
+/* ═══════════════ HERO ═══════════════ */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 6vw 100px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 80% 40%,rgba(20,41,82,.8) 0%,transparent 70%)}
+/* animated lines */
+.hero-lines{position:absolute;inset:0;overflow:hidden;z-index:0}
+.hero-lines span{position:absolute;width:1px;background:linear-gradient(to bottom,transparent,rgba(201,169,110,.15),transparent);animation:lineFloat 6s ease-in-out infinite}
+.hero-lines span:nth-child(1){left:15%;height:60%;top:20%;animation-delay:0s}
+.hero-lines span:nth-child(2){left:35%;height:40%;top:30%;animation-delay:1s}
+.hero-lines span:nth-child(3){left:55%;height:70%;top:10%;animation-delay:2s}
+.hero-lines span:nth-child(4){left:75%;height:50%;top:25%;animation-delay:.5s}
+.hero-lines span:nth-child(5){left:90%;height:35%;top:40%;animation-delay:1.5s}
+@keyframes lineFloat{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-20px)}}
+
+/* grid */
+.hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(201,169,110,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,110,.03) 1px,transparent 1px);background-size:72px 72px;animation:gridDrift 25s linear infinite}
+@keyframes gridDrift{from{background-position:0 0}to{background-position:72px 72px}}
+
+.hero-inner{position:relative;z-index:1;max-width:760px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;opacity:0;animation:fadeUp .8s .1s ease forwards}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:28px;height:1px;background:var(--gold)}
+
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,11vw,140px);line-height:.95;letter-spacing:.04em;color:var(--white);opacity:0;animation:fadeUp .9s .25s ease forwards}
+.hero h1 .stroke{-webkit-text-stroke:1.5px var(--gold);color:transparent}
+.hero h1 .gold{color:var(--gold)}
+
+.hero-sub{font-size:16px;color:var(--grey);line-height:1.9;max-width:460px;margin:28px 0 44px;font-weight:300;opacity:0;animation:fadeUp .8s .45s ease forwards}
+
+.hero-btns{display:flex;flex-wrap:wrap;gap:14px;opacity:0;animation:fadeUp .8s .6s ease forwards}
+.btn-gold{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--navy);background:var(--gold);padding:16px 38px;text-decoration:none;transition:all .25s;cursor:none;display:inline-block}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,169,110,.25)}
+.btn-ghost{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white);background:transparent;padding:16px 38px;border:1px solid rgba(255,255,255,.18);text-decoration:none;transition:all .25s;cursor:none;display:inline-block}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+.hero-nums{display:flex;gap:48px;margin-top:72px;padding-top:48px;border-top:1px solid rgba(255,255,255,.07);opacity:0;animation:fadeUp .8s .75s ease forwards}
+.num-val{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:.05em;color:var(--gold);display:block;line-height:1}
+.num-label{font-size:12px;color:var(--grey);margin-top:4px;line-height:1.5}
+
+/* HERO CARD */
+.hero-card{position:absolute;right:6vw;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(20px);padding:32px;width:272px;z-index:1;opacity:0;animation:slideLeft .9s .9s ease forwards}
+@keyframes slideLeft{from{opacity:0;transform:translateY(-50%) translateX(48px)}to{opacity:1;transform:translateY(-50%) translateX(0)}}
+.card-tag{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.card-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.card-row:last-of-type{border:none}
+.card-pkg{font-size:13px;color:var(--grey)}
+.card-p{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.05em;color:var(--white)}
+.card-bottom{margin-top:20px;padding:11px;background:rgba(201,169,110,.08);border:1px solid rgba(201,169,110,.2);font-size:11px;color:var(--gold);text-align:center;font-weight:600;letter-spacing:.06em}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ TICKER ═══ */
+.ticker{padding:18px 0;background:var(--gold);overflow:hidden;position:relative;z-index:2}
+.ticker-track{display:flex;animation:ticker 18s linear infinite;width:max-content}
+.ticker-item{display:flex;align-items:center;gap:20px;padding:0 32px;white-space:nowrap;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--navy)}
+.ticker-dot{width:5px;height:5px;background:var(--navy);border-radius:50%;opacity:.4}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ═══ DIAGONAL TRANSITION ═══ */
+.diag{position:relative;overflow:hidden}
+.diag::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:80px;background:inherit;clip-path:polygon(0 60%,100% 0,100% 100%,0 100%);z-index:1}
+
+/* ═══ ÜBER MICH ═══ */
+#ueber{background:var(--navy2);padding:120px 6vw 160px;position:relative;clip-path:polygon(0 60px,100% 0,100% calc(100% - 60px),0 100%);margin:-60px 0}
+.ueber-inner{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:center;max-width:1200px;margin:0 auto}
+
+.ueber-left{position:relative}
+.ueber-box{background:var(--navy3);border:1px solid rgba(255,255,255,.06);padding:48px;position:relative}
+.ueber-box::before{content:'';position:absolute;top:0;left:0;width:48px;height:2px;background:var(--gold)}
+.ueber-box::after{content:'';position:absolute;bottom:0;right:0;width:48px;height:2px;background:var(--gold)}
+.ueber-initial{font-family:'Bebas Neue',sans-serif;font-size:160px;color:rgba(201,169,110,.06);line-height:1;position:absolute;top:-40px;right:-20px;z-index:0;pointer-events:none}
+
+.ueber-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.06);margin-top:24px}
+.ustat{background:var(--navy2);padding:22px;transition:background .3s}
+.ustat:hover{background:var(--navy3)}
+.ustat-n{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--gold);letter-spacing:.05em;display:block;line-height:1}
+.ustat-l{font-size:11px;color:var(--grey);margin-top:4px;line-height:1.4}
+
+.ueber-right .section-tag{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.ueber-right .section-tag::after{content:'';flex:0 0 32px;height:1px;background:var(--gold)}
+.ueber-right h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,5vw,72px);letter-spacing:.04em;line-height:.95;color:var(--white);margin-bottom:28px}
+.ueber-right h2 span{color:var(--gold)}
+.ueber-right p{font-size:15px;color:var(--grey);line-height:1.9;font-weight:300;margin-bottom:18px}
+.ueber-vals{display:flex;flex-direction:column;gap:1px;margin-top:36px;background:rgba(255,255,255,.04)}
+.uval{background:var(--navy2);padding:18px 22px;display:flex;align-items:center;gap:16px;border-left:2px solid transparent;transition:all .25s}
+.uval:hover{background:var(--navy3);border-left-color:var(--gold)}
+.uval-icon{font-size:20px;flex-shrink:0}
+.uval-t{font-size:13px;font-weight:600;color:var(--white);margin-bottom:2px}
+.uval-d{font-size:12px;color:var(--grey)}
+
+/* ═══ PAKETE ═══ */
+#pakete{background:var(--navy);padding:160px 6vw 120px;position:relative}
+.pakete-head{max-width:1200px;margin:0 auto 56px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px}
+.pakete-head h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,6vw,80px);letter-spacing:.04em;color:var(--white);line-height:.95}
+.pakete-head h2 span{color:var(--gold)}
+.pakete-sub{font-size:15px;color:var(--grey);line-height:1.8;max-width:360px;font-weight:300}
+
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.05);max-width:1200px;margin:0 auto}
+.pkg{background:var(--navy);padding:44px 36px;position:relative;transition:background .3s;overflow:hidden}
+.pkg::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background .3s}
+.pkg:hover{background:rgba(20,41,82,.6)}
+.pkg:hover::before{background:var(--gold)}
+.pkg.hot{background:var(--navy2)}
+.pkg.hot::before{background:var(--gold)}
+.pkg-badge{position:absolute;top:20px;right:20px;background:var(--gold);color:var(--navy);font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:4px 12px}
+.pkg-n{font-family:'Cormorant Garamond',serif;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.pkg-name{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:.04em;color:var(--white);line-height:1;margin-bottom:20px}
+.pkg-desc{font-size:13px;color:var(--grey);line-height:1.7;margin-bottom:28px;font-weight:300}
+.pkg-list{list-style:none;margin-bottom:36px}
+.pkg-list li{font-size:13px;color:var(--grey);padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;gap:10px;line-height:1.4}
+.pkg-list li::before{content:'→';color:var(--gold);flex-shrink:0;font-size:11px;margin-top:2px}
+.pkg-price{font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:.03em;color:var(--white);line-height:1}
+.pkg-note{font-size:11px;color:var(--grey);margin-top:4px}
+.pkg-time{display:inline-block;margin-top:18px;font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--gold);border:1px solid rgba(201,169,110,.3);padding:6px 16px}
+
+/* ═══ PROZESS ═══ */
+#prozess{background:var(--navy3);padding:120px 6vw;clip-path:polygon(0 60px,100% 0,100% calc(100% - 60px),0 100%);margin:-60px 0;position:relative;z-index:2}
+.prozess-inner{max-width:1200px;margin:0 auto}
+.prozess-head{text-align:center;margin-bottom:72px}
+.prozess-head h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,6vw,80px);letter-spacing:.04em;color:var(--white);line-height:.95}
+.prozess-head h2 span{color:var(--gold)}
+.prozess-head p{font-size:15px;color:var(--grey);margin-top:16px;font-weight:300}
+
+.steps-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.steps-line{position:absolute;top:36px;left:12%;right:12%;height:1px;background:linear-gradient(90deg,var(--gold),rgba(201,169,110,.15));z-index:0}
+.step{padding:0 28px;text-align:center;position:relative;z-index:1}
+.step-dot{width:72px;height:72px;border:1px solid rgba(201,169,110,.4);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;background:var(--navy3);transition:all .4s;position:relative}
+.step:hover .step-dot{background:var(--gold);border-color:var(--gold)}
+.step-dot-n{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.05em;color:var(--gold);transition:color .4s}
+.step:hover .step-dot-n{color:var(--navy)}
+.step-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;color:var(--white);margin-bottom:12px}
+.step-desc{font-size:13px;color:var(--grey);line-height:1.7;font-weight:300}
+
+/* ═══ KONTAKT ═══ */
+#kontakt{background:var(--navy);padding:160px 6vw 120px;position:relative}
+.kontakt-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+
+.k-left h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,7vw,96px);letter-spacing:.04em;line-height:.9;color:var(--white);margin-bottom:28px}
+.k-left h2 span{-webkit-text-stroke:1.5px var(--gold);color:transparent}
+.k-left p{font-size:15px;color:var(--grey);line-height:1.9;font-weight:300;margin-bottom:48px}
+.k-contacts{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.04)}
+.k-contact{display:flex;align-items:center;gap:18px;padding:22px 24px;background:var(--navy);border-left:2px solid transparent;transition:all .25s;text-decoration:none;cursor:none}
+.k-contact:hover{background:var(--navy2);border-left-color:var(--gold)}
+.k-contact-ico{font-size:22px;flex-shrink:0}
+.k-contact-label{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--grey)}
+.k-contact-val{font-size:15px;color:var(--white);font-weight:500;margin-top:3px}
+
+.k-right{padding-top:28px}
+.k-promises{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.04);margin-bottom:36px}
+.k-prom{background:var(--navy);padding:22px 24px;display:flex;gap:16px;align-items:flex-start;transition:background .25s}
+.k-prom:hover{background:var(--navy2)}
+.k-prom-ico{font-size:20px;flex-shrink:0;margin-top:2px}
+.k-prom-t{font-size:13px;font-weight:600;color:var(--white);margin-bottom:4px}
+.k-prom-d{font-size:12px;color:var(--grey);line-height:1.6}
+
+/* ═══ FOOTER ═══ */
+footer{background:#040D1A;padding:36px 6vw;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.05)}
+.f-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.1em;color:var(--white)}
+.f-logo span{color:var(--gold)}
+.f-note{font-size:12px;color:var(--grey)}
+
+/* ═══ REVEAL ═══ */
+.rv{opacity:0;transform:translateY(36px);transition:opacity .75s ease,transform .75s ease}
+.rv.left{transform:translateX(-36px)}
+.rv.right{transform:translateX(36px)}
+.rv.scale{transform:scale(.96)}
+.rv.on{opacity:1;transform:none}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:960px){
+  .hero-card{display:none}
+  .ueber-inner{grid-template-columns:1fr;gap:48px}
+  .pkg-grid{grid-template-columns:1fr}
+  .steps-wrap{grid-template-columns:repeat(2,1fr);gap:40px}
+  .steps-line{display:none}
+  .kontakt-wrap{grid-template-columns:1fr;gap:48px}
+  .k-right{padding-top:0}
+  #ueber,#prozess{clip-path:none;margin:0}
+}
+@media(max-width:600px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  section,#ueber,#pakete,#prozess,#kontakt{padding:80px 20px}
+  .hero{padding:100px 20px 60px}
+  .hero-nums{gap:24px;flex-wrap:wrap}
+  .pakete-head{flex-direction:column;align-items:flex-start}
+  .steps-wrap{grid-template-columns:1fr}
+  footer{flex-direction:column;text-align:center}
+  .ueber-stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Prime<span>Page</span></div>
+  <div class="nav-links">
+    <a href="#ueber">Über mich</a>
+    <a href="#pakete">Pakete</a>
+    <a href="#prozess">Ablauf</a>
+    <a href="#kontakt">Kontakt</a>
+  </div>
+  <a href="#kontakt" class="nav-cta">Anfragen</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-lines">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Webdesign · Lokale Betriebe · Deutschland</div>
+    <h1>
+      PRIME<br>
+      <span class="stroke">PAGE</span><br>
+      <span class="gold">DIGITAL</span>
+    </h1>
+    <p class="hero-sub">Ich baue Websites, die Kunden gewinnen — professionell, schnell, und dauerhaft in Ihrem Besitz. Kein Abo. Kein Overhead. Nur Ergebnisse.</p>
+    <div class="hero-btns">
+      <a href="#kontakt" class="btn-gold">Kostenloses Erstgespräch</a>
+      <a href="#pakete" class="btn-ghost">Pakete ansehen</a>
+    </div>
+    <div class="hero-nums">
+      <div><span class="num-val">14</span><span class="num-label">Tage Lieferzeit<br>im Schnitt</span></div>
+      <div><span class="num-val">0€</span><span class="num-label">Monatliche<br>Abokosten</span></div>
+      <div><span class="num-val">100%</span><span class="num-label">Eigentum<br>an Sie</span></div>
+    </div>
+  </div>
+  <div class="hero-card">
+    <div class="card-tag">Unsere Pakete</div>
+    <div class="card-row"><span class="card-pkg">Starter</span><span class="card-p">500 €</span></div>
+    <div class="card-row"><span class="card-pkg">Business ✦</span><span class="card-p">800 €</span></div>
+    <div class="card-row"><span class="card-pkg">Pro</span><span class="card-p">1.200 €</span></div>
+    <div class="card-bottom">⚡ 7 – 21 Werktage Lieferung</div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="ticker-item">Fixpreise<div class="ticker-dot"></div></div>
+    <div class="ticker-item">Mobile-First Design<div class="ticker-dot"></div></div>
+    <div class="ticker-item">Vollständige Übergabe<div class="ticker-dot"></div></div>
+    <div class="ticker-item">SSL-Zertifikat<div class="ticker-dot"></div></div>
+    <div class="ticker-item">7–21 Werktage<div class="ticker-dot"></div></div>
+    <div class="ticker-item">Domain & Hosting an Sie<div class="ticker-dot"></div></div>
+    <div class="ticker-item">Persönliche Betreuung<div class="ticker-dot"></div></div>
+    <div class="ticker-item">Fixpreise<div class="ticker-dot"></div></div>
+    <div class="ticker-item">Mobile-First Design<div class="ticker-dot"></div></div>
+    <div class="ticker-item">Vollständige Übergabe<div class="ticker-dot"></div></div>
+    <div class="ticker-item">SSL-Zertifikat<div class="ticker-dot"></div></div>
+    <div class="ticker-item">7–21 Werktage<div class="ticker-dot"></div></div>
+    <div class="ticker-item">Domain & Hosting an Sie<div class="ticker-dot"></div></div>
+    <div class="ticker-item">Persönliche Betreuung<div class="ticker-dot"></div></div>
+  </div>
+</div>
+
+<!-- ÜBER MICH -->
+<section id="ueber">
+  <div class="ueber-inner">
+    <div class="ueber-left rv left">
+      <div class="ueber-initial">I</div>
+      <div class="ueber-box">
+        <p style="font-size:15px;color:var(--grey);line-height:1.9;font-weight:300;position:relative;z-index:1">Prime Page steht für eines: Lokale Betriebe verdienen eine professionelle Online-Präsenz — ohne überteuerte Agenturen, ohne monatliche Abhängigkeiten.<br><br>Ich übernehme die komplette Abwicklung. Sie konzentrieren sich auf Ihr Geschäft. Ich sorge dafür, dass Ihre Kunden Sie online finden.</p>
+      </div>
+      <div class="ueber-stats">
+        <div class="ustat"><span class="ustat-n">14</span><span class="ustat-l">Tage durchschnittliche Lieferzeit</span></div>
+        <div class="ustat"><span class="ustat-n">0 €</span><span class="ustat-l">Monatliche Abokosten für Sie</span></div>
+        <div class="ustat"><span class="ustat-n">1</span><span class="ustat-l">Fester Ansprechpartner immer</span></div>
+        <div class="ustat"><span class="ustat-n">100%</span><span class="ustat-l">Eigentumsübergabe garantiert</span></div>
+      </div>
+    </div>
+    <div class="ueber-right rv right">
+      <div class="section-tag">Über mich</div>
+      <h2>HALLO,<br>ICH BIN<br><span>ISMAIL.</span></h2>
+      <p>Ich bin der Gründer von Prime Page. Meine Mission ist einfach: Wer keine Website hat, verliert täglich potenzielle Kunden. Das ändere ich.</p>
+      <p>Von der ersten Idee bis zur fertigen Übergabe — ich begleite jeden Schritt. Transparent, zuverlässig, mit Fokus auf Ihr Ergebnis.</p>
+      <div class="ueber-vals">
+        <div class="uval"><div class="uval-icon">🎯</div><div><div class="uval-t">Ergebnisorientiert</div><div class="uval-d">Websites die funktionieren — nicht nur gut aussehen</div></div></div>
+        <div class="uval"><div class="uval-icon">⚡</div><div><div class="uval-t">Schnell & zuverlässig</div><div class="uval-d">Klare Deadlines, keine Überraschungen</div></div></div>
+        <div class="uval"><div class="uval-icon">🔒</div><div><div class="uval-t">Volle Transparenz</div><div class="uval-d">Fixpreise, klare Verträge, vollständige Übergabe</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAKETE -->
+<section id="pakete">
+  <div class="pakete-head rv">
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Pakete & Preise</div>
+      <h2>PAKETE<br><span>& PREISE</span></h2>
+    </div>
+    <p class="pakete-sub">Alle Pakete beinhalten vollständige Übergabe. Fixpreise — keine monatlichen Gebühren, keine Abhängigkeiten.</p>
+  </div>
+  <div class="pkg-grid rv scale">
+    <div class="pkg">
+      <div class="pkg-n">Paket 01</div>
+      <div class="pkg-name">STARTER</div>
+      <div class="pkg-desc">Ideal für Einzelunternehmer und Selbstständige, die schnell online sichtbar werden wollen.</div>
+      <ul class="pkg-list">
+        <li>1-seitige Website (Onepager)</li>
+        <li>Über mich, Leistungen, Kontakt</li>
+        <li>Mobile-optimiert & schnell</li>
+        <li>SSL-Zertifikat inklusive</li>
+        <li>1 Korrekturschleife</li>
+        <li>Domain & Hosting-Übergabe</li>
+      </ul>
+      <div class="pkg-price">500 €</div>
+      <div class="pkg-note">Einmalig · Fixpreis</div>
+      <div class="pkg-time">7 – 10 Werktage</div>
+    </div>
+    <div class="pkg hot">
+      <div class="pkg-badge">Beliebt</div>
+      <div class="pkg-n">Paket 02</div>
+      <div class="pkg-name">BUSINESS</div>
+      <div class="pkg-desc">Für lokale Betriebe, die professionell auftreten und aktiv Kundenanfragen gewinnen möchten.</div>
+      <ul class="pkg-list">
+        <li>Bis zu 5 Unterseiten</li>
+        <li>Leistungen, Galerie, Kontaktformular</li>
+        <li>SEO-Grundoptimierung</li>
+        <li>Mobile-optimiert & schnell</li>
+        <li>2 Korrekturschleifen</li>
+        <li>Domain & Hosting-Übergabe</li>
+      </ul>
+      <div class="pkg-price">800 €</div>
+      <div class="pkg-note">Einmalig · Fixpreis</div>
+      <div class="pkg-time">10 – 14 Werktage</div>
+    </div>
+    <div class="pkg">
+      <div class="pkg-n">Paket 03</div>
+      <div class="pkg-name">PRO</div>
+      <div class="pkg-desc">Für Unternehmen, die mehr Anfragen, mehr Conversions und messbares Wachstum wollen.</div>
+      <ul class="pkg-list">
+        <li>Landingpage mit Conversion-Fokus</li>
+        <li>Professionelles Copywriting</li>
+        <li>Erweiterte SEO-Struktur</li>
+        <li>Kontaktformular + Call-to-Action</li>
+        <li>2 Korrekturschleifen</li>
+        <li>Vollständige Übergabe</li>
+      </ul>
+      <div class="pkg-price">1.200 €</div>
+      <div class="pkg-note">Einmalig · Fixpreis</div>
+      <div class="pkg-time">14 – 21 Werktage</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROZESS -->
+<section id="prozess">
+  <div class="prozess-inner">
+    <div class="prozess-head rv">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px">So läuft es ab</div>
+      <h2>VIER SCHRITTE ZUR<br><span>FERTIGEN WEBSITE</span></h2>
+      <p>Kein technisches Vorwissen nötig. Sie liefern die Infos — ich kümmere mich um den Rest.</p>
+    </div>
+    <div class="steps-wrap rv">
+      <div class="steps-line"></div>
+      <div class="step">
+        <div class="step-dot"><span class="step-dot-n">01</span></div>
+        <div class="step-title">BRIEFING</div>
+        <div class="step-desc">Wir klären Ihre Ziele, Branche und Wünsche — in einem kurzen, unkomplizierten Gespräch.</div>
+      </div>
+      <div class="step">
+        <div class="step-dot"><span class="step-dot-n">02</span></div>
+        <div class="step-title">KONZEPT</div>
+        <div class="step-desc">Ich entwickle Struktur und Design — und präsentiere erste Entwürfe zur Freigabe.</div>
+      </div>
+      <div class="step">
+        <div class="step-dot"><span class="step-dot-n">03</span></div>
+        <div class="step-title">UMSETZUNG</div>
+        <div class="step-desc">Ihre Website wird professionell gebaut, getestet und für alle Geräte optimiert.</div>
+      </div>
+      <div class="step">
+        <div class="step-dot"><span class="step-dot-n">04</span></div>
+        <div class="step-title">ÜBERGABE</div>
+        <div class="step-desc">Domain & Hosting gehen vollständig in Ihren Besitz über. Sie sind der alleinige Eigentümer.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt">
+  <div class="kontakt-wrap">
+    <div class="rv left">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Kontakt</div>
+      <h2 class="k-left" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,7vw,88px);letter-spacing:.04em;line-height:.9;color:var(--white);margin-bottom:28px">BEREIT FÜR<br><span style="-webkit-text-stroke:1.5px var(--gold);color:transparent">IHRE</span><br>WEBSITE?</h2>
+      <p style="font-size:15px;color:var(--grey);line-height:1.9;font-weight:300;margin-bottom:40px">Schreiben Sie mir — ich melde mich innerhalb von 24 Stunden und wir besprechen kostenlos Ihr Projekt.</p>
+      <div class="k-contacts">
+        <a href="mailto:prime1page@gmail.com" class="k-contact">
+          <div class="k-contact-ico">✉️</div>
+          <div><div class="k-contact-label">E-Mail</div><div class="k-contact-val">prime1page@gmail.com</div></div>
+        </a>
+        <a href="tel:+4915754152030" class="k-contact">
+          <div class="k-contact-ico">📱</div>
+          <div><div class="k-contact-label">WhatsApp / Telefon</div><div class="k-contact-val">+49 1575 4152030</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="k-right rv right">
+      <div class="k-promises">
+        <div class="k-prom"><div class="k-prom-ico">🔒</div><div><div class="k-prom-t">Vollständige Eigentumsübergabe</div><div class="k-prom-d">Nach finaler Zahlung gehören Domain, Hosting und alle Dateien ausschließlich Ihnen.</div></div></div>
+        <div class="k-prom"><div class="k-prom-ico">🎯</div><div><div class="k-prom-t">Fixpreise ohne Überraschungen</div><div class="k-prom-d">Der vereinbarte Preis ist der finale Preis — keine versteckten Kosten, nie.</div></div></div>
+        <div class="k-prom"><div class="k-prom-ico">⚡</div><div><div class="k-prom-t">Schnell & zuverlässig</div><div class="k-prom-d">Klare Deadlines, regelmäßige Updates, persönlicher Kontakt — immer.</div></div></div>
+        <div class="k-prom"><div class="k-prom-ico">💬</div><div><div class="k-prom-t">Kostenloses Erstgespräch</div><div class="k-prom-d">Unverbindlich. Ich erkläre genau was Sie brauchen — und was es kostet.</div></div></div>
+      </div>
+      <a href="mailto:prime1page@gmail.com" class="btn-gold" style="display:block;text-align:center;font-size:13px">Jetzt Nachricht schreiben →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="f-logo">Prime<span>Page</span></div>
+    <div class="f-note" style="margin-top:6px">Gegründet von Ismail · Websites für lokale Betriebe</div>
+  </div>
+  <div class="f-note">© 2025 PrimePage · Alle Rechte vorbehalten</div>
+</footer>
+
+<script>
+// Cursor
+const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.cssText+=`;left:${mx}px;top:${my}px`});
+function animCursor(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cur2.style.cssText+=`;left:${rx}px;top:${ry}px`;requestAnimationFrame(animCursor)}
+animCursor();
+document.querySelectorAll('a,button,.pkg,.step,.uval,.k-prom').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur2.style.width='60px';cur2.style.height='60px';cur2.style.borderColor='rgba(201,169,110,.8)'});
+  el.addEventListener('mouseleave',()=>{cur2.style.width='40px';cur2.style.height='40px';cur2.style.borderColor='rgba(201,169,110,.5)'});
+});
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('on'),i*100)});
+},{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// Nav
+window.addEventListener('scroll',()=>{
+  document.querySelector('nav').style.boxShadow=scrollY>20?'0 4px 40px rgba(0,0,0,.5)':'none';
+});
+</script>
+</body>
+</html>

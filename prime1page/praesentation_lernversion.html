@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Page – Lernversion Erstgespräch</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#08152A;--navy2:#0E1F3D;--navy3:#142952;
+  --gold:#C9A96E;--gold2:#E8D5B0;
+  --white:#FFFFFF;--grey:#7A8FA8;--grey2:#4A6080;
+  --tip:#1A3A1A;--tip-border:#2D6A2D;--tip-text:#7DC97D;
+  --inter:#1A2A3A;--inter-border:#2D4A6A;--inter-text:#7DB4DC;
+  --warn:#3A2A1A;--warn-border:#6A4A2D;--warn-text:#DCA07D;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:#0D0D0D;color:var(--white);margin:0}
+
+/* ── CONTROLS ── */
+#controls{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:16px;
+  background:rgba(8,21,42,.95);border:1px solid rgba(201,169,110,.3);
+  padding:12px 24px;z-index:1000;backdrop-filter:blur(20px);
+}
+#controls button{
+  background:none;border:1px solid rgba(201,169,110,.4);
+  color:var(--gold);font-family:'Outfit',sans-serif;
+  font-size:12px;font-weight:600;letter-spacing:.1em;
+  padding:8px 20px;cursor:pointer;transition:all .2s;
+  text-transform:uppercase;
+}
+#controls button:hover{background:var(--gold);color:var(--navy)}
+#slide-counter{font-size:13px;color:var(--grey);min-width:60px;text-align:center;font-weight:600}
+#fullscreen-btn{font-size:16px;background:none;border:none;color:var(--grey);cursor:pointer;padding:4px 8px}
+#fullscreen-btn:hover{color:var(--gold)}
+
+/* ── SLIDES ── */
+.slide{
+  display:none;min-height:100vh;
+  position:relative;overflow:hidden;
+  background:var(--navy);
+}
+.slide.active{display:flex;flex-direction:column;justify-content:center}
+
+/* BG GRID */
+.slide::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(201,169,110,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,110,.03) 1px,transparent 1px);
+  background-size:64px 64px;pointer-events:none;z-index:0;
+}
+
+/* ACCENT LINES */
+.gold-top{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);z-index:2}
+.gold-left{position:absolute;top:0;bottom:0;left:0;width:3px;background:linear-gradient(180deg,transparent,var(--gold),transparent);z-index:2}
+
+/* NAV */
+.slide-nav{
+  position:absolute;top:0;left:0;right:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 60px;z-index:3;
+}
+.s-logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.1em;color:var(--white)}
+.s-logo span{color:var(--gold)}
+.s-badge{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,169,110,.3);padding:5px 14px;background:rgba(201,169,110,.05)}
+.s-num{font-size:11px;color:var(--grey);letter-spacing:.1em}
+
+/* MAIN CONTENT */
+.slide-inner{
+  position:relative;z-index:1;
+  padding:100px 60px 120px;
+  max-width:1200px;width:100%;margin:0 auto;
+}
+
+/* TYPOGRAPHY */
+.eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:12px;margin-bottom:20px;
+}
+.eyebrow::before{content:'';width:28px;height:1px;background:var(--gold)}
+h1.slide-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,7vw,96px);
+  line-height:.95;letter-spacing:.02em;color:var(--white);margin-bottom:24px;
+}
+h1.slide-title span{color:var(--gold)}
+h1.slide-title .stroke{-webkit-text-stroke:1.5px var(--gold);color:transparent}
+h2.slide-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(36px,5vw,64px);
+  line-height:.95;letter-spacing:.02em;color:var(--white);margin-bottom:20px;
+}
+h2.slide-title span{color:var(--gold)}
+.slide-sub{font-size:16px;color:var(--grey);line-height:1.8;font-weight:300;max-width:560px;margin-bottom:32px}
+
+/* SECTION SLIDE */
+.section-slide{background:linear-gradient(135deg,var(--navy2) 0%,var(--navy3) 100%)}
+.section-num{
+  position:absolute;right:60px;top:50%;transform:translateY(-50%);
+  font-family:'Bebas Neue',sans-serif;font-size:200px;
+  color:rgba(201,169,110,.06);line-height:1;letter-spacing:-.05em;
+  pointer-events:none;z-index:0;
+}
+
+/* CONTENT BOXES */
+.content-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:8px}
+.content-grid.three{grid-template-columns:1fr 1fr 1fr}
+.content-grid.wide{grid-template-columns:1.2fr .8fr}
+
+.stat-card{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-top:2px solid var(--gold);padding:28px 24px;
+}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--gold);letter-spacing:.02em;display:block;line-height:1}
+.stat-label{font-size:13px;color:var(--grey);margin-top:8px;line-height:1.5}
+.stat-punch{font-size:12px;color:var(--white);font-weight:600;margin-top:10px}
+
+.bullet-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.bullet-list li{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:14px 18px;background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);border-left:3px solid var(--gold);
+}
+.b-icon{font-size:18px;flex-shrink:0}
+.b-title{font-size:14px;font-weight:700;color:var(--white);display:block;margin-bottom:3px}
+.b-text{font-size:12px;color:var(--grey);line-height:1.5}
+
+.fragen-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.frage{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  padding:18px 20px;display:flex;gap:12px;
+}
+.f-num{font-family:'Bebas Neue',sans-serif;font-size:28px;color:rgba(201,169,110,.2);flex-shrink:0;line-height:1}
+.f-text{font-size:13px;font-weight:600;color:var(--white);line-height:1.5}
+.f-why{font-size:11px;color:var(--grey);margin-top:4px;line-height:1.4}
+
+.pakete-grid{display:flex;flex-direction:column;gap:10px}
+.paket{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  padding:16px 20px;display:flex;justify-content:space-between;align-items:center;
+}
+.paket.hot{background:rgba(201,169,110,.06);border-color:rgba(201,169,110,.3)}
+.p-name{font-size:15px;font-weight:700;color:var(--white)}
+.p-sub{font-size:11px;color:var(--grey);margin-top:2px}
+.p-price{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);letter-spacing:.02em}
+
+.steps-list{display:flex;flex-direction:column;gap:10px}
+.step-item{
+  display:flex;gap:14px;align-items:flex-start;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:14px 18px;
+}
+.step-num{
+  width:28px;height:28px;background:var(--gold);color:var(--navy);
+  font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.step-text{font-size:13px;font-weight:600;color:var(--white)}
+.step-sub{font-size:11px;color:var(--grey);margin-top:2px}
+
+/* JA LEITER */
+.ja-list{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+.ja-item{
+  display:flex;align-items:center;gap:20px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  padding:20px 24px;
+}
+.ja-q{font-size:14px;color:var(--white);font-weight:500;flex:1;line-height:1.5}
+.ja-q em{color:var(--grey);font-style:normal;font-size:12px;display:block;margin-top:4px}
+.ja-ans{
+  font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--gold);
+  letter-spacing:.05em;flex-shrink:0;
+}
+
+/* RECHNER */
+.rechner{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:24px}
+.rechner-title{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.rechner-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px}
+.rechner-row:last-child{border:none;padding-top:14px}
+.r-l{color:var(--grey)}
+.r-v{color:var(--white);font-weight:700}
+.rechner-row.total .r-l{color:var(--white);font-weight:700}
+.rechner-row.total .r-v{color:var(--gold);font-size:22px;font-weight:900;font-family:'Bebas Neue',sans-serif;letter-spacing:.02em}
+
+/* TIPS */
+.tip-box{
+  background:var(--tip);border:1px solid var(--tip-border);border-left:3px solid var(--tip-text);
+  padding:14px 18px;margin-top:14px;display:flex;gap:12px;align-items:flex-start;
+}
+.tip-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--tip-text);flex-shrink:0;margin-top:1px}
+.tip-text{font-size:12px;color:var(--tip-text);line-height:1.6;opacity:.9}
+
+.inter-box{
+  background:var(--inter);border:1px solid var(--inter-border);border-left:3px solid var(--inter-text);
+  padding:14px 18px;margin-top:10px;display:flex;gap:12px;align-items:flex-start;
+}
+.inter-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--inter-text);flex-shrink:0;margin-top:1px}
+.inter-text{font-size:12px;color:var(--inter-text);line-height:1.6;opacity:.9}
+
+.warn-box{
+  background:var(--warn);border:1px solid var(--warn-border);border-left:3px solid var(--warn-text);
+  padding:14px 18px;margin-top:10px;display:flex;gap:12px;align-items:flex-start;
+}
+.warn-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--warn-text);flex-shrink:0;margin-top:1px}
+.warn-text{font-size:12px;color:var(--warn-text);line-height:1.6;opacity:.9}
+
+/* TYPEN BADGES */
+.typ-badges{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.typ{font-size:10px;font-weight:700;letter-spacing:.1em;padding:4px 12px;border:1px solid}
+.typ.rot{color:#FF6B6B;border-color:#FF6B6B;background:rgba(255,107,107,.06)}
+.typ.blau{color:#6BB8FF;border-color:#6BB8FF;background:rgba(107,184,255,.06)}
+.typ.gelb{color:#FFD96B;border-color:#FFD96B;background:rgba(255,217,107,.06)}
+.typ.gruen{color:#6BFF9E;border-color:#6BFF9E;background:rgba(107,255,158,.06)}
+
+/* TITLE SLIDE EXTRAS */
+.hero-nums{display:flex;gap:48px;margin-top:48px;padding-top:40px;border-top:1px solid rgba(255,255,255,.07)}
+.h-num-val{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);display:block;line-height:1}
+.h-num-lab{font-size:11px;color:var(--grey);margin-top:4px}
+
+/* ABSCHLUSS */
+.abschluss-box{
+  background:rgba(201,169,110,.06);border:1px solid rgba(201,169,110,.25);
+  padding:48px;text-align:center;max-width:720px;margin:0 auto;
+}
+.abschluss-box h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,64px);color:var(--white);line-height:.95;margin-bottom:16px}
+.abschluss-box h2 span{color:var(--gold)}
+.contact-row{display:flex;justify-content:center;gap:32px;margin-top:28px;flex-wrap:wrap}
+.c-item{font-size:12px;color:var(--grey);display:flex;align-items:center;gap:8px}
+.c-item strong{color:var(--white);font-size:13px}
+
+/* FOOTER */
+.slide-footer{position:absolute;bottom:24px;right:60px;font-size:11px;color:rgba(201,169,110,.3);letter-spacing:.08em;z-index:3}
+
+/* KEYBOARD HINT */
+.key-hint{font-size:11px;color:var(--grey);opacity:.6;display:flex;align-items:center;gap:8px}
+.key{border:1px solid rgba(255,255,255,.2);padding:2px 8px;font-size:10px;font-family:monospace}
+
+/* LEGENDE */
+.legende{
+  position:fixed;top:24px;right:24px;
+  background:rgba(8,21,42,.95);border:1px solid rgba(255,255,255,.1);
+  padding:16px 20px;z-index:500;backdrop-filter:blur(20px);
+  font-size:11px;
+}
+.legende-title{color:var(--gold);font-weight:700;letter-spacing:.1em;margin-bottom:10px;font-size:10px;text-transform:uppercase}
+.legende-item{display:flex;align-items:center;gap:8px;margin-bottom:6px;color:var(--grey)}
+.legende-dot{width:8px;height:8px;flex-shrink:0}
+
+@media(max-width:768px){
+  .slide-inner{padding:80px 24px 120px}
+  .content-grid,.content-grid.three,.content-grid.wide,.fragen-grid{grid-template-columns:1fr}
+  h1.slide-title{font-size:48px}
+  .section-num{font-size:120px;right:20px}
+  .legende{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- LEGENDE -->
+<div class="legende">
+  <div class="legende-title">Farb-Legende</div>
+  <div class="legende-item"><div class="legende-dot" style="background:#7DC97D"></div> Redetipp für dich</div>
+  <div class="legende-item"><div class="legende-dot" style="background:#7DB4DC"></div> Interaktion mit Kunde</div>
+  <div class="legende-item"><div class="legende-dot" style="background:#DCA07D"></div> Wichtiger Hinweis</div>
+</div>
+
+<!-- CONTROLS -->
+<div id="controls">
+  <div class="key-hint"><span class="key">←</span><span class="key">→</span> oder Klick</div>
+  <button onclick="prevSlide()">← Zurück</button>
+  <span id="slide-counter">1 / 16</span>
+  <button onclick="nextSlide()">Weiter →</button>
+  <button id="fullscreen-btn" onclick="toggleFullscreen()" title="Vollbild">⛶</button>
+</div>
+
+
+<!-- ═══ FOLIE 1 — TITEL ═══ -->
+<div class="slide active" id="slide-1">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Lernversion · Version 1</div>
+    <div class="s-num">01 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Kostenloses Erstgespräch</div>
+    <h1 class="slide-title">Schön dass Sie<br>sich <span>Zeit nehmen.</span></h1>
+    <p class="slide-sub">In den nächsten 15 Minuten zeige ich Ihnen etwas das die meisten Betriebe nicht wissen — kein Verkaufsgespräch, eine ehrliche Analyse.</p>
+    <div class="hero-nums">
+      <div><span class="h-num-val">15</span><div class="h-num-lab">Minuten</div></div>
+      <div><span class="h-num-val">3</span><div class="h-num-lab">Kern-Erkenntnisse</div></div>
+      <div><span class="h-num-val">0 €</span><div class="h-num-lab">Kosten heute</div></div>
+    </div>
+    <div class="tip-box" style="margin-top:32px">
+      <span class="tip-label">Redetipp</span>
+      <span class="tip-text">Präsentation kurz weglegen — dich persönlich vorstellen — dann erst beginnen. Erster Eindruck: entspannt, willst helfen, kein Druck.</span>
+    </div>
+  </div>
+  <div class="slide-footer">prime1page@gmail.com · prime1page.de</div>
+</div>
+
+
+<!-- ═══ FOLIE 2 — EINSTIEGSFRAGE ═══ -->
+<div class="slide" id="slide-2">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 1 · Schmerz</div>
+    <div class="s-num">02 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Einstieg</div>
+    <h2 class="slide-title">Darf ich Sie kurz<br><span>etwas fragen?</span></h2>
+    <div class="bullet-list">
+      <li>
+        <div class="b-icon">❓</div>
+        <div><span class="b-title">Die Frage stellen:</span><span class="b-text">„Wenn Sie selbst einen Handwerker suchen — was machen Sie als allererstes?"</span></div>
+      </li>
+      <li>
+        <div class="b-icon">⏸️</div>
+        <div><span class="b-title">PAUSE lassen</span><span class="b-text">Kunde sagt: Google → Du: „Genau. Und wenn Sie dort nichts finden?" → Kunde: „Ich schau beim Nächsten."</span></div>
+      </li>
+      <li>
+        <div class="b-icon">💡</div>
+        <div><span class="b-title">Dann sagst du:</span><span class="b-text">„Genau das passiert gerade täglich mit Ihren Kunden."</span></div>
+      </li>
+    </div>
+    <div class="tip-box">
+      <span class="tip-label">Redetipp</span>
+      <span class="tip-text">Nicht weitermachen bevor der Kunde geantwortet hat. Die Stille arbeitet für dich — halte die Pause aus.</span>
+    </div>
+    <div class="warn-box">
+      <span class="warn-label">Wichtig</span>
+      <span class="warn-text">Das ist die stärkste Folie der ganzen Präsentation. Wer die Antwort selbst ausspricht glaubt sie sofort.</span>
+    </div>
+  </div>
+  <div class="slide-footer">01 · Schmerzvermittlung</div>
+</div>
+
+
+<!-- ═══ FOLIE 3 — ZAHLEN ═══ -->
+<div class="slide" id="slide-3">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 1 · Schmerz</div>
+    <div class="s-num">03 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Die Realität</div>
+    <h2 class="slide-title">Was Ihre Kunden täglich tun —<br><span>ohne dass Sie es merken.</span></h2>
+    <div class="content-grid three">
+      <div class="stat-card">
+        <span class="stat-num">97%</span>
+        <div class="stat-label">suchen Betriebe zuerst online — bevor sie anrufen</div>
+        <div class="stat-punch">→ Quelle: Google Consumer Insights 2023</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">75%</span>
+        <div class="stat-label">verlassen Google nie über Seite 1 hinaus</div>
+        <div class="stat-punch">→ Wer fehlt, existiert nicht</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">56%</span>
+        <div class="stat-label">vertrauen Betrieben ohne Website grundsätzlich nicht</div>
+        <div class="stat-punch">→ Kein Vertrauen = kein Auftrag</div>
+      </div>
+    </div>
+    <div class="typ-badges">
+      <span class="typ rot">ROT: Zahlen direkt nennen</span>
+      <span class="typ blau">BLAU: Quelle laut nennen</span>
+    </div>
+    <div class="inter-box">
+      <span class="inter-label">Interaktion</span>
+      <span class="inter-text">„Wussten Sie das?" — nach jeder Zahl kurz pausieren und Reaktion des Kunden abwarten. Frage zum Schluss: „Welche dieser Zahlen überrascht Sie am meisten?"</span>
+    </div>
+  </div>
+  <div class="slide-footer">01 · Schmerzvermittlung</div>
+</div>
+
+
+<!-- ═══ FOLIE 4 — VERLUSTRECHNER ═══ -->
+<div class="slide" id="slide-4">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 1 · Schmerz</div>
+    <div class="s-num">04 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Der echte Verlust</div>
+    <h2 class="slide-title">Was das für<br><span>Ihren Betrieb bedeutet.</span></h2>
+    <div class="content-grid wide">
+      <div>
+        <div class="bullet-list">
+          <li>
+            <div class="b-icon">💬</div>
+            <div><span class="b-title">Frage stellen:</span><span class="b-text">„Was verdienen Sie an einem typischen Auftrag im Schnitt?"</span></div>
+          </li>
+          <li>
+            <div class="b-icon">🧮</div>
+            <div><span class="b-title">Gemeinsam rechnen:</span><span class="b-text">Betrag × 3 Kunden × 12 Monate = Jahresverlust</span></div>
+          </li>
+          <li>
+            <div class="b-icon">😮</div>
+            <div><span class="b-title">Der stärkste Moment:</span><span class="b-text">Kunde rechnet selbst — niemand zweifelt an seiner eigenen Rechnung</span></div>
+          </li>
+        </div>
+        <div class="tip-box">
+          <span class="tip-label">Redetipp</span>
+          <span class="tip-text">Lass den Kunden die Zahl nennen. Dann rechne gemeinsam laut. Für den Ergebnistyp: konkrete Euro zeigen, kein Blabla.</span>
+        </div>
+        <div class="typ-badges">
+          <span class="typ rot">ROT springt hier an</span>
+        </div>
+      </div>
+      <div class="rechner">
+        <div class="rechner-title">Verlustrechnung live</div>
+        <div class="rechner-row"><span class="r-l">Ø Auftragswert</span><span class="r-v">_____ €</span></div>
+        <div class="rechner-row"><span class="r-l">Verlorene Kunden / Monat</span><span class="r-v">× 3</span></div>
+        <div class="rechner-row"><span class="r-l">Verlust pro Monat</span><span class="r-v">_____ €</span></div>
+        <div class="rechner-row total"><span class="r-l">Jahresverlust</span><span class="r-v">_____ €</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">01 · Schmerzvermittlung</div>
+</div>
+
+
+<!-- ═══ FOLIE 5 — VISION (GELB) ═══ -->
+<div class="slide" id="slide-5">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 1 · Schmerz</div>
+    <div class="s-num">05 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Die Möglichkeit</div>
+    <h2 class="slide-title">Stellen Sie sich<br><span>kurz vor …</span></h2>
+    <div class="bullet-list">
+      <li><div class="b-icon">🔍</div><div><span class="b-title">Jemand in Ihrer Stadt sucht genau das was Sie anbieten.</span><span class="b-text">Er findet Sie — liest Ihre Seite — ruft an.</span></div></li>
+      <li><div class="b-icon">🚫</div><div><span class="b-title">Ohne dass Sie je kalt akquiriert hätten.</span><span class="b-text">Der Kunde kam von selbst — weil Sie online sichtbar waren.</span></div></li>
+      <li><div class="b-icon">⏰</div><div><span class="b-title">Ihre Website arbeitet 24 Stunden für Sie.</span><span class="b-text">Auch wenn Sie schlafen.</span></div></li>
+    </div>
+    <div class="tip-box">
+      <span class="tip-label">Redetipp</span>
+      <span class="tip-text">Langsam und bildhaft sprechen. Pause nach dem Wort „schlafen" — lass das wirken. Begeisterung zeigen — Möglichkeiten malen.</span>
+    </div>
+    <div class="inter-box">
+      <span class="inter-label">Interaktion</span>
+      <span class="inter-text">„Klingt das nach etwas das Ihrem Betrieb helfen würde?" — Kunde antwortet, du hörst zu.</span>
+    </div>
+    <div class="typ-badges"><span class="typ gelb">GELB springt hier an</span></div>
+  </div>
+  <div class="slide-footer">01 · Schmerzvermittlung</div>
+</div>
+
+
+<!-- ═══ FOLIE 6 — KONKURRENZ ═══ -->
+<div class="slide" id="slide-6">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 1 · Schmerz</div>
+    <div class="s-num">06 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Der Markt</div>
+    <h2 class="slide-title">Warum andere Betriebe<br><span>das schon nutzen.</span></h2>
+    <div class="content-grid">
+      <div class="bullet-list">
+        <li><div class="b-icon">⚡</div><div><span class="b-title">Ihr Mitbewerber gewinnt täglich Anfragen.</span><span class="b-text">Über seine Website — ohne Kaltakquise.</span></div></li>
+        <li><div class="b-icon">⏱️</div><div><span class="b-title">84% entscheiden in unter 3 Sekunden.</span><span class="b-text">Kein erster Eindruck = sofortige Niederlage.</span></div></li>
+        <li><div class="b-icon">📊</div><div><span class="b-title">35% aller Kleinbetriebe ohne Website.</span><span class="b-text">Quelle: Statista 2023 — das ist Ihre Chance, nicht Ihr Problem.</span></div></li>
+      </div>
+      <div>
+        <div class="stat-card" style="height:100%;display:flex;flex-direction:column;justify-content:center">
+          <span class="stat-num" style="font-size:80px">1/3</span>
+          <div class="stat-label">aller Konkurrenten ist online — der Rest verliert täglich</div>
+          <div class="stat-punch" style="margin-top:20px">→ Wollen Sie zur Mehrheit gehören — oder zur Minderheit die gewinnt?</div>
+        </div>
+      </div>
+    </div>
+    <div class="inter-box">
+      <span class="inter-label">Interaktion</span>
+      <span class="inter-text">„Haben Sie Fragen zu dem was ich bisher gezeigt habe?" — Raum lassen für Rückfragen. Für den Blauen Typ ist das der Moment.</span>
+    </div>
+    <div class="typ-badges"><span class="typ rot">ROT: Konkurrenz-Argument</span><span class="typ blau">BLAU: Quelle nennen</span></div>
+  </div>
+  <div class="slide-footer">01 · Schmerzvermittlung</div>
+</div>
+
+
+<!-- ═══ FOLIE 7 — KEIN RISIKO ═══ -->
+<div class="slide" id="slide-7">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 1 · Vertrauen</div>
+    <div class="s-num">07 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Sicherheit</div>
+    <h2 class="slide-title">Was Sie bei mir<br><span>nie riskieren.</span></h2>
+    <div class="content-grid">
+      <div class="bullet-list">
+        <li><div class="b-icon">👤</div><div><span class="b-title">Ein Ansprechpartner — von Anfang bis Ende.</span><span class="b-text">Ich bin es. Kein Zwischenhändler, kein Callcenter.</span></div></li>
+        <li><div class="b-icon">💳</div><div><span class="b-title">50% Anzahlung — Rest erst nach Freigabe.</span><span class="b-text">Sie zahlen den Rest erst wenn Sie die Website gesehen und abgenommen haben.</span></div></li>
+        <li><div class="b-icon">🔓</div><div><span class="b-title">Kein Abo, kein Vertrag der Sie bindet.</span><span class="b-text">Alles gehört am Ende Ihnen — Domain, Hosting, Code.</span></div></li>
+        <li><div class="b-icon">🔒</div><div><span class="b-title">Fixpreis — was wir vereinbaren ist was Sie zahlen.</span><span class="b-text">Nichts mehr. Keine Überraschungen.</span></div></li>
+      </div>
+      <div>
+        <div style="background:rgba(201,169,110,.06);border:1px solid rgba(201,169,110,.2);padding:28px;text-align:center">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--gold);line-height:1">0€</div>
+          <div style="font-size:13px;color:var(--white);font-weight:600;margin-top:8px">Risiko für Sie</div>
+          <div style="font-size:11px;color:var(--grey);margin-top:8px;line-height:1.5">Sie zahlen den Rest erst wenn Sie zufrieden sind</div>
+        </div>
+        <div class="tip-box" style="margin-top:16px">
+          <span class="tip-label">Redetipp</span>
+          <span class="tip-text">Für den Sicherheitstyp: langsam und ruhig sprechen. Betonung auf „kein Risiko" und „ein Ansprechpartner".</span>
+        </div>
+        <div class="typ-badges"><span class="typ gruen">GRÜN springt hier an</span></div>
+      </div>
+    </div>
+    <div class="inter-box">
+      <span class="inter-label">Interaktion</span>
+      <span class="inter-text">„Haben Sie noch Fragen zum Ablauf bevor wir weitermachen?"</span>
+    </div>
+  </div>
+  <div class="slide-footer">01 · Schmerzvermittlung</div>
+</div>
+
+
+<!-- ═══ FOLIE 8 — TEIL 2 TRENNER ═══ -->
+<div class="slide section-slide" id="slide-8">
+  <div class="gold-left"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 2 · Bedarfsanalyse</div>
+    <div class="s-num">08 / 16</div>
+  </div>
+  <div class="section-num">02</div>
+  <div class="slide-inner">
+    <div class="eyebrow">Teil 2 von 3</div>
+    <h1 class="slide-title">Jetzt möchte ich Sie<br><span>besser verstehen.</span></h1>
+    <p class="slide-sub">Kein Verhör — nur ein paar Fragen damit ich die richtige Lösung für Sie finde. Ich notiere live mit — das ist bereits Ihr erstes Briefing.</p>
+    <div class="warn-box">
+      <span class="warn-label">Wichtig</span>
+      <span class="warn-text">Stift und Block sichtbar hinlegen und anfangen zu schreiben wenn Kunde redet. Ton: Berater, nicht Verkäufer. Kunde redet — du hörst zu — nie unterbrechen.</span>
+    </div>
+  </div>
+  <div class="slide-footer">02 · Bedarfsanalyse</div>
+</div>
+
+
+<!-- ═══ FOLIE 9 — FRAGEN 1-3 ═══ -->
+<div class="slide" id="slide-9">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 2 · Bedarfsanalyse</div>
+    <div class="s-num">09 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Situation verstehen</div>
+    <h2 class="slide-title">Wie läuft Ihr<br><span>Geschäft aktuell?</span></h2>
+    <div class="fragen-grid">
+      <div class="frage">
+        <div class="f-num">01</div>
+        <div><div class="f-text">Wie kommen Sie aktuell an neue Kunden?</div><div class="f-why">→ Verstehe den Ausgangspunkt</div></div>
+      </div>
+      <div class="frage">
+        <div class="f-num">02</div>
+        <div><div class="f-text">Was würde sich ändern wenn morgen 3 neue Kunden über eine Website anfragen?</div><div class="f-why">→ Kunde spricht seinen Wunsch selbst aus</div></div>
+      </div>
+      <div class="frage" style="grid-column:1/-1">
+        <div class="f-num">03</div>
+        <div><div class="f-text">Was ist das Wichtigste was ein Besucher über Ihren Betrieb sofort verstehen soll?</div><div class="f-why">→ Definiert das Kernversprechen der Website</div></div>
+      </div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-label">Redetipp</span>
+      <span class="tip-text">Wiederholen was Kunde sagt: „Also wenn ich Sie richtig verstehe dann …" — Kunde fühlt sich gehört. Das ist der Unterschied zwischen Verkauf und Beratung.</span>
+    </div>
+    <div class="warn-box">
+      <span class="warn-label">Wichtig</span>
+      <span class="warn-text">Sichtbar notieren — Kunde sieht dass du ernst nimmst. Diese Infos gehen direkt in die Website ein. Wer antwortet ist investiert — Absprung wird schwerer.</span>
+    </div>
+  </div>
+  <div class="slide-footer">02 · Bedarfsanalyse</div>
+</div>
+
+
+<!-- ═══ FOLIE 10 — FRAGEN 4-6 ═══ -->
+<div class="slide" id="slide-10">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 2 · Bedarfsanalyse</div>
+    <div class="s-num">10 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Website konkretisieren</div>
+    <h2 class="slide-title">Was soll Ihre Website<br><span>für Sie tun?</span></h2>
+    <div class="fragen-grid">
+      <div class="frage">
+        <div class="f-num">04</div>
+        <div><div class="f-text">Welche Leistungen bringen Ihnen die besten Aufträge?</div><div class="f-why">→ Fokus auf das Kerngeschäft</div></div>
+      </div>
+      <div class="frage">
+        <div class="f-num">05</div>
+        <div><div class="f-text">Wie sollen Kunden Sie erreichen — Telefon, WhatsApp oder Formular?</div><div class="f-why">→ Definiert den Call-to-Action</div></div>
+      </div>
+      <div class="frage" style="grid-column:1/-1">
+        <div class="f-num">06</div>
+        <div><div class="f-text">Haben Sie ein Logo oder Firmenfarben — oder bauen wir das von Grund auf?</div><div class="f-why">→ Klärt vorhandenes Material</div></div>
+      </div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-label">Redetipp</span>
+      <span class="tip-text">Nach Antwort zusammenfassen: „Also Ihre wichtigste Leistung ist X — richtig?" Für Grünen: zeigt er hört zu. Für Blauen: zeigt er notiert jedes Detail.</span>
+    </div>
+    <div class="inter-box">
+      <span class="inter-label">Interaktion</span>
+      <span class="inter-text">„Passt das so wie ich es verstanden habe?" — Kunde korrigiert oder bestätigt.</span>
+    </div>
+    <div class="typ-badges"><span class="typ gruen">GRÜN: Zuhören</span><span class="typ blau">BLAU: Details notieren</span></div>
+  </div>
+  <div class="slide-footer">02 · Bedarfsanalyse</div>
+</div>
+
+
+<!-- ═══ FOLIE 11 — FRAGEN 7-9 ═══ -->
+<div class="slide" id="slide-11">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 2 · Bedarfsanalyse</div>
+    <div class="s-num">11 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Design & Timing</div>
+    <h2 class="slide-title">Wie soll Ihre<br><span>Website aussehen?</span></h2>
+    <div class="fragen-grid">
+      <div class="frage">
+        <div class="f-num">07</div>
+        <div><div class="f-text">Gibt es Websites die Ihnen optisch gefallen — egal welche Branche?</div><div class="f-why">→ Design-Richtung festlegen</div></div>
+      </div>
+      <div class="frage">
+        <div class="f-num">08</div>
+        <div><div class="f-text">Wen wollen Sie ansprechen — welche Art von Kunden?</div><div class="f-why">→ Zielgruppe definieren</div></div>
+      </div>
+      <div class="frage" style="grid-column:1/-1">
+        <div class="f-num">09</div>
+        <div><div class="f-text">Wann wäre Ihnen die fertige Website am liebsten?</div><div class="f-why">→ Erzeugt konkreten Handlungsdruck — jetzt nicht später</div></div>
+      </div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-label">Redetipp</span>
+      <span class="tip-text">Nach Frage 9 sagst du: „Ich habe jetzt ein klares Bild — ich weiß genau was Sie brauchen." Dann: Abschluss-Briefing — du hast alles, ihr könnt anfangen.</span>
+    </div>
+    <div class="inter-box">
+      <span class="inter-label">Interaktion</span>
+      <span class="inter-text">„Haben Sie noch etwas das Ihnen wichtig ist und das ich wissen sollte?" — letzter Raum für den Kunden.</span>
+    </div>
+  </div>
+  <div class="slide-footer">02 · Bedarfsanalyse</div>
+</div>
+
+
+<!-- ═══ FOLIE 12 — TEIL 3 TRENNER ═══ -->
+<div class="slide section-slide" id="slide-12">
+  <div class="gold-left"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 3 · Abschluss</div>
+    <div class="s-num">12 / 16</div>
+  </div>
+  <div class="section-num">03</div>
+  <div class="slide-inner">
+    <div class="eyebrow">Teil 3 von 3</div>
+    <h1 class="slide-title">Drei kurze Fragen —<br><span>dann sind wir fertig.</span></h1>
+    <p class="slide-sub">Kein Druck — nur Klarheit ob wir zusammenpassen.</p>
+    <div class="warn-box">
+      <span class="warn-label">Psychologie</span>
+      <span class="warn-text">Diese drei Fragen bauen aufeinander auf — jedes Ja macht das nächste leichter. Wer dreimal Ja sagt sagt nicht beim vierten Mal Nein.</span>
+    </div>
+  </div>
+  <div class="slide-footer">03 · Abschluss</div>
+</div>
+
+
+<!-- ═══ FOLIE 13 — JA LEITER ═══ -->
+<div class="slide" id="slide-13">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 3 · Abschluss</div>
+    <div class="s-num">13 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Ja-Leiter</div>
+    <h2 class="slide-title">Wären Sie<br><span>einverstanden …</span></h2>
+    <div class="ja-list">
+      <div class="ja-item">
+        <div class="ja-q">Wären Sie einverstanden dass mehr Online-Sichtbarkeit Ihrem Betrieb helfen würde?<em>→ Für Grünen und Roten</em></div>
+        <div class="ja-ans">JA</div>
+      </div>
+      <div class="ja-item">
+        <div class="ja-q">Macht es logisch Sinn dass eine professionelle Website mehr Vertrauen schafft als gar kein Auftritt?<em>→ Für Blauen</em></div>
+        <div class="ja-ans">JA</div>
+      </div>
+      <div class="ja-item">
+        <div class="ja-q">Wenn ich Ihnen das in 14 Tagen zum Fixpreis liefere und alles gehört danach Ihnen — wäre das interessant?<em>→ Für Gelben</em></div>
+        <div class="ja-ans">JA</div>
+      </div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-label">Redetipp</span>
+      <span class="tip-text">Nach jedem Ja kurz nicken und direkt zur nächsten Frage. Nach drei Ja sagst du: „Gut — dann schauen wir gemeinsam welches Paket am besten zu Ihnen passt."</span>
+    </div>
+  </div>
+  <div class="slide-footer">03 · Abschluss</div>
+</div>
+
+
+<!-- ═══ FOLIE 14 — PAKETE ═══ -->
+<div class="slide" id="slide-14">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 3 · Abschluss</div>
+    <div class="s-num">14 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Die Entscheidung</div>
+    <h2 class="slide-title">Was Sie bekommen —<br><span>und was es kostet.</span></h2>
+    <div class="content-grid">
+      <div class="pakete-grid">
+        <div class="paket"><div><div class="p-name">Starter</div><div class="p-sub">Onepager · 5–7 Werktage</div></div><div class="p-price">500 €</div></div>
+        <div class="paket hot"><div><div class="p-name">Business ✦</div><div class="p-sub">Bis 6 Seiten · 7–10 Werktage · Meistgewählt</div></div><div class="p-price">800 €</div></div>
+        <div class="paket"><div><div class="p-name">Pro</div><div class="p-sub">Landingpage · 10–14 Werktage</div></div><div class="p-price">1.300 €</div></div>
+        <div style="padding:12px 16px;background:rgba(201,169,110,.06);border:1px solid rgba(201,169,110,.2)">
+          <span style="font-size:11px;color:var(--gold);font-weight:700">✓ Fixpreis &nbsp;·&nbsp; ✓ Kein Abo &nbsp;·&nbsp; ✓ 100% Ihr Eigentum</span>
+        </div>
+      </div>
+      <div>
+        <div class="bullet-list">
+          <li><div class="b-icon">🔴</div><div><span class="b-title">Für Roten:</span><span class="b-text">Fixpreis · schnell · klar · kein Abo</span></div></li>
+          <li><div class="b-icon">🔵</div><div><span class="b-title">Für Blauen:</span><span class="b-text">Alles schriftlich · Vertrag · keine versteckten Kosten</span></div></li>
+          <li><div class="b-icon">🟢</div><div><span class="b-title">Für Grünen:</span><span class="b-text">50% erst nach Freigabe · ein Ansprechpartner · kein Risiko</span></div></li>
+          <li><div class="b-icon">🟡</div><div><span class="b-title">Für Gelben:</span><span class="b-text">In 14 Tagen live · neue Kunden kommen von selbst</span></div></li>
+        </div>
+        <div class="inter-box">
+          <span class="inter-label">Interaktion</span>
+          <span class="inter-text">„Welches Paket spricht Sie am meisten an?"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">03 · Abschluss</div>
+</div>
+
+
+<!-- ═══ FOLIE 15 — NÄCHSTE SCHRITTE ═══ -->
+<div class="slide" id="slide-15">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Teil 3 · Abschluss</div>
+    <div class="s-num">15 / 16</div>
+  </div>
+  <div class="slide-inner">
+    <div class="eyebrow">Der Plan</div>
+    <h2 class="slide-title">So starten wir —<br><span>noch heute.</span></h2>
+    <div class="steps-list">
+      <div class="step-item"><div class="step-num">1</div><div><div class="step-text">Paket gemeinsam festlegen</div><div class="step-sub">Jetzt — in diesem Gespräch</div></div></div>
+      <div class="step-item"><div class="step-num">2</div><div><div class="step-text">Projektvereinbarung unterschreiben</div><div class="step-sub">Fixpreis, Lieferzeit und Leistungen schriftlich</div></div></div>
+      <div class="step-item"><div class="step-num">3</div><div><div class="step-text">50% Anzahlung — Projekt startet sofort</div><div class="step-sub">Rest erst nach Ihrer persönlichen Freigabe</div></div></div>
+      <div class="step-item"><div class="step-num">4</div><div><div class="step-text">Fertige Website in 14 Tagen</div><div class="step-sub">Inklusive aller Korrekturrunden</div></div></div>
+      <div class="step-item"><div class="step-num">5</div><div><div class="step-text">Domain, Hosting und alle Dateien gehen in Ihren Besitz</div><div class="step-sub">Vollständige Übergabe — Sie sind der alleinige Eigentümer</div></div></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-label">Redetipp</span>
+      <span class="tip-text">Sagst du: „Sie haben mir heute bereits alles gegeben was ich brauche — wir können morgen anfangen."</span>
+    </div>
+  </div>
+  <div class="slide-footer">03 · Abschluss</div>
+</div>
+
+
+<!-- ═══ FOLIE 16 — ABSCHLUSS ═══ -->
+<div class="slide" id="slide-16">
+  <div class="gold-top"></div>
+  <div class="slide-nav">
+    <div class="s-logo">Prime<span>Page</span></div>
+    <div class="s-badge">Abschluss</div>
+    <div class="s-num">16 / 16</div>
+  </div>
+  <div class="slide-inner" style="display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 200px)">
+    <div>
+      <div class="abschluss-box">
+        <h2>Wann passt es Ihnen besser —<br><span>Dienstag oder Donnerstag?</span></h2>
+        <p style="font-size:14px;color:var(--grey);margin-top:16px;line-height:1.7">Jeder Tag ohne Website ist ein Tag für Ihren Konkurrenten.<br>Ich kann morgen anfangen — die Frage ist nur wann Sie möchten.</p>
+        <div class="contact-row">
+          <div class="c-item">✉️ <strong>prime1page@gmail.com</strong></div>
+          <div class="c-item">📱 <strong>+49 1575 4152030</strong></div>
+          <div class="c-item">🌐 <strong>prime1page.de</strong></div>
+        </div>
+      </div>
+      <div class="tip-box" style="max-width:720px;margin:16px auto 0">
+        <span class="tip-label">Redetipp</span>
+        <span class="tip-text">NIE fragen OB — IMMER fragen WANN. Die zwei Optionen lassen keinen Raum für ein Nein. WICHTIG: Schweigen nach der Frage — wer zuerst redet verliert.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+let current = 1;
+const total = 16;
+
+function showSlide(n){
+  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+  document.getElementById('slide-'+n).classList.add('active');
+  document.getElementById('slide-counter').textContent = n+' / '+total;
+  window.scrollTo(0,0);
+}
+function nextSlide(){if(current<total){current++;showSlide(current)}}
+function prevSlide(){if(current>1){current--;showSlide(current)}}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' ')nextSlide();
+  if(e.key==='ArrowLeft')prevSlide();
+});
+
+function toggleFullscreen(){
+  if(!document.fullscreenElement){document.documentElement.requestFullscreen()}
+  else{document.exitFullscreen()}
+}
+</script>
+</body>
+</html>
