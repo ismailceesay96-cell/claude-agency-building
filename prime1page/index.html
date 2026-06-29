@@ -1329,6 +1329,37 @@ document.querySelectorAll('.feature-list li').forEach((li, i) => {
   li.classList.add('reveal');
   observer.observe(li);
 });
+
+// ─── MOUSE TRAIL ───
+(function(){
+  const POOL=6,SIZE=4,DELAY=60,LIFE=800;
+  const dots=[];
+  let mx=0,my=0,active=true;
+  for(let i=0;i<POOL;i++){
+    const d=document.createElement('div');
+    d.style.cssText='position:fixed;width:'+SIZE+'px;height:'+SIZE+'px;pointer-events:none;z-index:9999;opacity:0;background:#C9A96E;border-radius:1px;transform:translate(-50%,-50%);will-change:transform,opacity;';
+    document.body.appendChild(d);
+    dots.push({el:d,busy:false,t1:null,t2:null});
+  }
+  document.addEventListener('mousemove',function(e){
+    mx=e.clientX;my=e.clientY;
+    active=!e.target.closest('a,button,[role="button"],input,textarea,select,label,[cursor-none]');
+  },{passive:true});
+  setInterval(function(){
+    if(!active)return;
+    var d=null;
+    for(var i=0;i<dots.length;i++){if(!dots[i].busy){d=dots[i];break;}}
+    if(!d)return;
+    d.busy=true;
+    d.el.style.left=mx+'px';
+    d.el.style.top=my+'px';
+    d.el.style.transition='none';
+    d.el.style.opacity='0.3';
+    clearTimeout(d.t1);clearTimeout(d.t2);
+    d.t1=setTimeout(function(){d.el.style.transition='opacity 0.8s';d.el.style.opacity='0';},30);
+    d.t2=setTimeout(function(){d.busy=false;},LIFE);
+  },DELAY);
+})();
 </script>
 </body>
 </html>
