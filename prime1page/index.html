@@ -767,9 +767,14 @@ footer::before{
   .footer-links{flex-direction:column;gap:40px}
   .footer-bottom{flex-direction:column;gap:8px;text-align:center}
 }
+#pp-loader{position:fixed;inset:0;background:#08152A;display:flex;align-items:center;justify-content:center;z-index:99999;transition:opacity .7s ease,visibility .7s ease}
+#pp-loader.hidden{opacity:0;visibility:hidden}
+#pp-loader img{width:90px;height:90px;object-fit:contain;animation:pp-pulse 1.5s ease-in-out infinite}
+@keyframes pp-pulse{0%,100%{filter:drop-shadow(0 0 8px rgba(201,169,110,.4))}50%{filter:drop-shadow(0 0 24px rgba(201,169,110,.8))}}
 </style>
 </head>
 <body>
+<div id="pp-loader"><img src="nur das emblem.jpg" alt="PrimePage"></div>
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -1331,6 +1336,17 @@ document.querySelectorAll('.feature-list li').forEach((li, i) => {
   li.classList.add('reveal');
   observer.observe(li);
 });
+
+// ─── PAGE LOADER ───
+(function(){
+  var loader=document.getElementById('pp-loader');
+  document.body.style.overflow='hidden';
+  setTimeout(function(){
+    loader.classList.add('hidden');
+    document.body.style.overflow='';
+  },1500);
+  loader.addEventListener('transitionend',function(){loader.remove();});
+})();
 
 // ─── MOUSE TRAIL ───
 (function(){
